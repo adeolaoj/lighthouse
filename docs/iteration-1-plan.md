@@ -199,6 +199,11 @@ Example format:
   - Assignee(s): @Ariel, @Adeola, @Ryan
   - Requirement Number: #R2
 
+- Task: Create an evaluation loop that checks whether the web-scaped data is sufficient (whether there’s need to navigate to more urls, or if the web-scape collect enough details about a lab)
+  - Type: task
+  - Assignee(s): @Ariel
+  - Requirement Number: #R2
+
 ---
 
 ### R1 – Results Page
