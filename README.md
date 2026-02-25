@@ -21,7 +21,7 @@ git clone <repo-url>
 cd <project-name>
 
 # Install dependencies
-<command>
+npm-install
 ```
 
 ## Running the Application

@@ -1,0 +1,29 @@
+{
+  "name": "team-03",
+  "version": "1.0.0",
+  "description": "<!-- TODO: Replace with your project name and description -->",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cs423sp26-homeworks/team-03.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cs423sp26-homeworks/team-03/issues"
+  },
+  "homepage": "https://github.com/cs423sp26-homeworks/team-03#readme",
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
