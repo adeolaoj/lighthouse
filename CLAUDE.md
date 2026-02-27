@@ -34,13 +34,20 @@ Testing:
 - Vitest
 
 ## Commands
-(TODO: Confirm exact scripts once scaffolding is generated.)
 
+Frontend (`cd frontend`):
 - Install dependencies: `npm install`
 - Run development server: `npm run dev`
 - Run tests: `npm run test`
 - Run linter: `npm run lint`
 - Build for production: `npm run build`
+- Type check: `npm run typecheck`
+
+Backend (`cd backend`):
+- Install dependencies: `npm install`
+- Run development server: `npm run dev`
+- Deploy to Convex cloud: `npm run deploy`
+- Type check: `npm run typecheck`
 
 ## Code Style
 - Formatting: Prettier
