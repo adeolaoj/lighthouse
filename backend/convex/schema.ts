@@ -23,4 +23,5 @@ export default defineSchema({
     researchFocus: v.string(), 
     postedAt: v.optional(v.number()),
   }),
+
 })
