@@ -8,6 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+
     "convex": "^1.0.0"
   },
   "devDependencies": {
