@@ -20,5 +20,6 @@ export default defineSchema({
     opportunityType: v.string(), 
     researcherInformation: v.string(), 
     researchFocus: v.string(), 
+    postedAt: v.optional(v.number()),
   }),
 })
