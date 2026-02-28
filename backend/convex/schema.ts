@@ -3,6 +3,7 @@ import { v } from 'convex/values'
 
 export default defineSchema({
   opportunities: defineTable({
+    id: v.string(),
     title: v.string(),
     labURL: v.string(),
     labName: v.string(),
