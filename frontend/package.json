@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run convex:codegen && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "convex:codegen": "cd ../backend && npx convex codegen"
   },
   "dependencies": {
     "convex": "^1.0.0",

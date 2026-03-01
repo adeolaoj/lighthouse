@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { useToken } from '../providers'
 
 declare global {
   interface Window {
@@ -11,6 +12,7 @@ declare global {
 
 export default function LoginPage() {
   const router = useRouter()
+  const { setToken } = useToken()
 
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
@@ -26,6 +28,7 @@ export default function LoginPage() {
         callback: (response: { credential?: string }) => {
           console.log('Google credential response:', response)
           if (response.credential) {
+            setToken(response.credential)
             router.push('/results')
           }
         },
@@ -40,7 +43,6 @@ export default function LoginPage() {
     if (window.google?.accounts?.id) {
       initGoogle()
     } else {
-      // Script loaded via layout.tsx — poll until available
       const interval = setInterval(() => {
         if (window.google?.accounts?.id) {
           clearInterval(interval)
@@ -49,7 +51,7 @@ export default function LoginPage() {
       }, 100)
       return () => clearInterval(interval)
     }
-  }, [router])
+  }, [router, setToken])
 
   return (
     <div className="flex min-h-screen items-center justify-center">
