@@ -2,6 +2,14 @@ import { defineSchema, defineTable } from 'convex/server'
 import { v } from 'convex/values'
 
 export default defineSchema({
+  userProfiles: defineTable({
+    tokenIdentifier: v.string(),
+    name: v.string(),
+    email: v.string(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_tokenIdentifier", ["tokenIdentifier"]),
+
   opportunities: defineTable({
     id: v.string(),
     title: v.string(),
@@ -14,5 +22,4 @@ export default defineSchema({
     researchFocus: v.string(), 
     postedAt: v.optional(v.number()),
   }),
-
 })
