@@ -1,6 +1,7 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react"
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 declare global {
   interface Window {
@@ -8,12 +9,14 @@ declare global {
   }
 }
 
-export function LoginPage() {
+export default function LoginPage() {
+  const router = useRouter()
+
   useEffect(() => {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
 
     if (!clientId) {
-      console.error("Missing VITE_GOOGLE_CLIENT_ID")
+      console.error('Missing NEXT_PUBLIC_GOOGLE_CLIENT_ID')
       return
     }
 
@@ -21,34 +24,32 @@ export function LoginPage() {
       window.google.accounts.id.initialize({
         client_id: clientId,
         callback: (response: { credential?: string }) => {
-          console.log("Google credential response:", response)
+          console.log('Google credential response:', response)
+          if (response.credential) {
+            router.push('/results')
+          }
         },
       })
 
-      //if (!response.credential) return; need to varify 
-
-      const router = useRouter();
-      router.push("/ResultsPage");
-
       window.google.accounts.id.renderButton(
-        document.getElementById("googleSignIn"),
-        { theme: "outline", size: "large" }
+        document.getElementById('googleSignIn'),
+        { theme: 'outline', size: 'large' }
       )
     }
 
     if (window.google?.accounts?.id) {
-      // Script already loaded
       initGoogle()
     } else {
-      // Load the script dynamically and wait for it
-      const script = document.createElement("script")
-      script.src = "https://accounts.google.com/gsi/client"
-      script.onload = initGoogle
-      script.async = true
-      script.defer = true
-      document.body.appendChild(script)
+      // Script loaded via layout.tsx — poll until available
+      const interval = setInterval(() => {
+        if (window.google?.accounts?.id) {
+          clearInterval(interval)
+          initGoogle()
+        }
+      }, 100)
+      return () => clearInterval(interval)
     }
-  }, [])
+  }, [router])
 
   return (
     <div className="flex min-h-screen items-center justify-center">
