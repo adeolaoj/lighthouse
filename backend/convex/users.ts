@@ -39,7 +39,6 @@ export const syncMe = mutation({
       tokenIdentifier: identity.tokenIdentifier,
       name: identity.name ?? "",
       email: identity.email ?? "",
-      image: identity.pictureUrl ?? "",
       updatedAt: now,
     };
 
