@@ -444,7 +444,7 @@ export default function LoginPage() {
 
       // Render the official Google button inside our styled slot
       window.google.accounts.id.renderButton(el, {
-       theme: 'filled_bl',
+       theme: 'filled_black',
        size: 'large',
        type: 'standard',
        shape: 'pill',
