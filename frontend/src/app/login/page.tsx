@@ -79,235 +79,6 @@ declare global {
   }
 }
 
-const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-
-  html, body, #root, #__next {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  .lh-root {
-    width: 100%;
-    min-height: 100vh;
-    font-family: 'DM Sans', sans-serif;
-    background: #0c0a18;
-    color: #ede8ff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .lh-root::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 15% 10%, rgba(129,140,248,0.14) 0%, transparent 55%),
-      radial-gradient(ellipse 60% 70% at 85% 85%, rgba(232,121,249,0.12) 0%, transparent 55%),
-      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(167,139,250,0.05) 0%, transparent 65%),
-      radial-gradient(ellipse 40% 40% at 70% 20%, rgba(244,114,182,0.07) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .lh-root::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(167,139,250,0.07) 1px, transparent 1px);
-    background-size: 32px 32px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .lh-orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(100px);
-    pointer-events: none;
-    z-index: 0;
-    animation: lh-drift 14s ease-in-out infinite alternate;
-  }
-  .lh-orb-1 {
-    width: 500px; height: 500px;
-    top: -150px; left: -100px;
-    background: radial-gradient(circle, rgba(129,140,248,0.2), transparent 70%);
-  }
-  .lh-orb-2 {
-    width: 450px; height: 450px;
-    bottom: -120px; right: -80px;
-    background: radial-gradient(circle, rgba(232,121,249,0.18), transparent 70%);
-    animation-delay: -7s;
-  }
-  .lh-orb-3 {
-    width: 300px; height: 300px;
-    top: 30%; left: 55%;
-    background: radial-gradient(circle, rgba(244,114,182,0.12), transparent 70%);
-    animation-delay: -3.5s;
-  }
-
-  @keyframes lh-drift {
-    0%   { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(40px, 25px) scale(1.08); }
-  }
-
-  .lh-logo-bar {
-    position: fixed;
-    top: 28px; left: 32px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 10;
-    animation: lh-fadeIn 0.5s ease both;
-  }
-  .lh-logo-icon {
-    width: 30px; height: 30px;
-    background: linear-gradient(135deg, #A78BFA, #E879F9);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .lh-logo-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    color: #ede8ff;
-    letter-spacing: 0.02em;
-  }
-
-  .lh-content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .lh-hero-icon {
-    margin-bottom: 28px;
-    animation: lh-fadeUp 0.7s 0.05s cubic-bezier(0.16,1,0.3,1) both;
-    filter: drop-shadow(0 0 18px rgba(232,121,249,0.35)) drop-shadow(0 0 40px rgba(167,139,250,0.2));
-  }
-
-  .lh-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: rgba(167,139,250,0.08);
-    border: 1px solid rgba(167,139,250,0.18);
-    border-radius: 100px;
-    padding: 5px 14px 5px 9px;
-    font-size: 11px;
-    font-weight: 500;
-    color: #A78BFA;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 32px;
-    animation: lh-fadeUp 0.6s 0.1s cubic-bezier(0.16,1,0.3,1) both;
-  }
-  .lh-badge-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #A78BFA, #E879F9);
-    box-shadow: 0 0 8px #A78BFA;
-    animation: lh-pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes lh-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.5; transform: scale(0.75); }
-  }
-
-  .lh-heading {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(52px, 8vw, 84px);
-    font-weight: 800;
-    line-height: 1.0;
-    letter-spacing: -0.03em;
-    margin-bottom: 20px;
-    background: linear-gradient(110deg, #818CF8 0%, #A78BFA 30%, #E879F9 65%, #F472B6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: lh-fadeUp 0.7s 0.15s cubic-bezier(0.16,1,0.3,1) both;
-  }
-
-  .lh-subtitle {
-    font-size: 16px;
-    color: #7b6fa0;
-    font-weight: 300;
-    max-width: 360px;
-    line-height: 1.65;
-    margin-bottom: 48px;
-    animation: lh-fadeUp 0.7s 0.22s cubic-bezier(0.16,1,0.3,1) both;
-  }
-
-  /* Keep the “Continue with Google” area looking like your design */
-  .lh-google-slot {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 40px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(167,139,250,0.22);
-    border-radius: 100px;
-    backdrop-filter: blur(8px);
-    animation: lh-fadeUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
-    position: relative;
-    overflow: hidden;
-  }
-  .lh-google-slot:hover {
-    border-color: rgba(167,139,250,0.5);
-    box-shadow: 0 0 50px rgba(167,139,250,0.18), 0 8px 32px rgba(0,0,0,0.3);
-    transform: translateY(-2px);
-    transition: 0.25s;
-  }
-
-  .lh-signup {
-    margin-top: 28px;
-    font-size: 13px;
-    color: #7b6fa0;
-    animation: lh-fadeUp 0.7s 0.38s cubic-bezier(0.16,1,0.3,1) both;
-  }
-  .lh-signup a {
-    color: #A78BFA;
-    text-decoration: none;
-    font-weight: 500;
-    margin-left: 4px;
-    transition: color 0.2s;
-  }
-  .lh-signup a:hover { color: #E879F9; }
-
-  .lh-line-accent {
-    width: 1px;
-    height: 56px;
-    background: linear-gradient(to bottom, rgba(167,139,250,0.25), transparent);
-    margin-top: 44px;
-    animation: lh-fadeIn 1s 0.5s both;
-  }
-
-  .lh-help {
-    margin-top: 10px;
-    font-size: 12px;
-    color: rgba(123, 111, 160, 0.9);
-    animation: lh-fadeUp 0.7s 0.42s cubic-bezier(0.16,1,0.3,1) both;
-  }
-
-  @keyframes lh-fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes lh-fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-`;
-
 // ─── Icons from your attached design ─────────────────────────────────────────
 
 const LogoLighthouseIcon: React.FC = () => (
@@ -408,6 +179,7 @@ const HeroLighthouseIcon: React.FC = () => (
   </svg>
 );
 
+
 // ─── Combined Next.js Login Page ─────────────────────────────────────────────
 
 export default function LoginPage() {
@@ -444,7 +216,7 @@ export default function LoginPage() {
 
       // Render the official Google button inside our styled slot
       window.google.accounts.id.renderButton(el, {
-       theme: 'filled_black',
+       //theme: 'filled_black',
        size: 'large',
        type: 'standard',
        shape: 'pill',
@@ -469,11 +241,12 @@ export default function LoginPage() {
     }
   }, [router, setToken]);
 
-  return (
-    <>
-      <style>{styles}</style>
+  const handleGoogleLogin = () => {
+    window.google.accounts.id.prompt()
+  }
 
-      <div className="lh-root">
+  return (
+    <div className="lh-root">
         {/* Ambient orbs */}
         <div className="lh-orb lh-orb-1" aria-hidden="true" />
         <div className="lh-orb lh-orb-2" aria-hidden="true" />
@@ -504,10 +277,48 @@ export default function LoginPage() {
             Sign in to explore research opportunities matched to your academic profile.
           </p>
 
+
+
+
+
+
+
+
+
+
+
           {/* This keeps your design, but renders the real Google button inside it */}
-          <div className="lh-google-slot" aria-label="Continue with Google">
+          
+          {/*<div className="lh-google-slot" aria-label="Continue with Google">
             <div id="googleSignIn" />
+          </div>8*/}
+
+
+          <div>
+            <button className="google-btn" onClick={handleGoogleLogin}>
+              <img src="/web_neutral_rd_na.svg" alt="Google"/>
+              Sign in with Google
+            </button>
           </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <p className="lh-help">
             If the button doesn&apos;t load, check console for errors.
@@ -529,6 +340,5 @@ export default function LoginPage() {
           <div className="lh-line-accent" aria-hidden="true" />
         </main>
       </div>
-    </>
   );
 }
