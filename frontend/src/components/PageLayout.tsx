@@ -31,7 +31,6 @@ export default function PageLayout({ children, sidebarOpen, setSidebarOpen }: Pa
         flex: 1,
         borderRadius: "22px",
         background: "rgba(255,255,255,0.04)",
-        backdropFilter: "blur(32px)",
         WebkitBackdropFilter: "blur(32px)",
         border: "1px solid rgba(192,132,252,0.15)",
         boxShadow: "0 0 0 1px rgba(255,255,255,0.03) inset, 0 32px 80px rgba(0,0,0,0.5)",
