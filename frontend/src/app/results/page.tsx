@@ -1,57 +1,24 @@
-/*
-'use client'
-
-import { useEffect } from 'react'
-import { useMutation, useQuery } from 'convex/react'
-import { api } from "@convex/_generated/api";
-
-export default function ResultsPage() {
-  const me = useQuery(api.users.getMe);
-  const syncMe = useMutation(api.users.syncMe)
-
-  useEffect(() => {
-    if (me?.identity && !me?.profile) {
-      syncMe()
-    }
-  }, [me, syncMe])
-
-  return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold">Research Opportunities</h1>
-      <p className="mt-2 text-gray-500">Opportunities will appear here.</p>
-    </div>
-  )
-}
-  */
-
 "use client";
 
-import { useEffect } from "react";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "@convex/_generated/api";
+import { useState } from "react";
+import PageLayout from "@/components/PageLayout";
 
 export default function ResultsPage() {
-  const me = useQuery(api.users.getMe);
-  const syncMe = useMutation(api.users.syncMe);
-
-  useEffect(() => {
-    if (me?.identity && !me?.profile) {
-      syncMe();
-    }
-  }, [me, syncMe]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold">Research Opportunities</h1>
-
-      <div className="mt-6 rounded border p-4">
-        <p className="font-semibold">Debug: getMe()</p>
-        <pre className="mt-2 text-xs whitespace-pre-wrap">
-          {JSON.stringify(me, null, 2)}
-        </pre>
+    <PageLayout sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <div className="scroll-area" style={{ flex: 1, minWidth: 0, overflow: "auto" }}>
+        <main style={{ padding: "32px 32px 60px", flex: 1 }}>
+          {/* Page content will go here */}
+          <h1 style={{
+            fontSize: "28px", fontWeight: "600", color: "white",
+            margin: "0 0 24px", letterSpacing: "-0.5px",
+          }}>
+            Opportunities for You
+          </h1>
+        </main>
       </div>
-
-      <p className="mt-6 text-gray-500">Opportunities will appear here.</p>
-    </div>
+    </PageLayout>
   );
 }
