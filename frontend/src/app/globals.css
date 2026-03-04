@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: var(--op);
+  }
+  50% {
+    opacity: calc(var(--op) * 0.4);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.scroll-area {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192, 132, 252, 0) transparent;
+  transition: scrollbar-color 0.3s;
+}
+
+.scroll-area:hover,
+.scroll-area:focus-within {
+  scrollbar-color: rgba(192, 132, 252, 0.25) transparent;
+}
+
+.scroll-area::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+  background: rgba(192, 132, 252, 0);
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.scroll-area:hover::-webkit-scrollbar-thumb {
+  background: rgba(192, 132, 252, 0.25);
+}
