@@ -1,7 +1,7 @@
 import { query } from "./_generated/server";
 import type { QueryCtx } from "./_generated/server";
 
-export const getOpportunities = query({
+export const get_opportunities = query({
   args: {},
   handler: async (ctx: QueryCtx) => {
     try {
@@ -15,9 +15,9 @@ export const getOpportunities = query({
         labDescription: opportunity.labDescription,
         headFaculty: opportunity.headFaculty,
         opportunityType: opportunity.opportunityType,
-        reseracherInformation: opportunity.researcherInformation,
-        reserachFocus: opportunity.researchFocus, 
-        postedAt: opportunity.postedAt ?? null, 
+        researcherInformation: opportunity.researcherInformation,
+        researchFocus: opportunity.researchFocus, 
+        postedAt: opportunity._creationTime ?? null, 
       }));
     } catch (error) {
       throw new Error("Failed to fetch opportunities from the database.");
