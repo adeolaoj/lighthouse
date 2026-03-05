@@ -1,7 +1,7 @@
 import { query } from "./_generated/server";
 import type { QueryCtx } from "./_generated/server";
 
-export const getOpportunities = query({
+export const get_opportunities = query({
   args: {},
   handler: async (ctx: QueryCtx) => {
     try {
