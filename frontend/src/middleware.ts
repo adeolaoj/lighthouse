@@ -23,5 +23,5 @@ export const middleware = (request: NextRequest) => {
 
 // applies the middleware only to the ResultsPage route, allowing LoginPage to be accessed without authentication
 export const config = {
-    matcher: ["/results/:path*s"],
+    matcher: ["/results/:path*"],
 }
