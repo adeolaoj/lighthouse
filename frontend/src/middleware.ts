@@ -5,11 +5,13 @@ import type { NextRequest } from 'next/server';
 export const middleware = (request: NextRequest) => {
 
     // check for cookie
-    const token = request.cookies.get("auth");
+    const token =
+        request.cookies.get("authjs.session-token") ||
+        request.cookies.get("__Secure-authjs.session-token");
 
     if (!token) {
-        // builds the login url e.g. http://localhost:3000/LoginPage
-        const loginUrl = new URL("/LoginPage", request.url);
+        // builds the login url e.g. http://localhost:3000/login
+        const loginUrl = new URL("/login", request.url);
         // allows app to redirect back to the originally requested page after login
         loginUrl.searchParams.set("redirect", request.nextUrl.pathname);
         // redirects to login page
@@ -21,5 +23,5 @@ export const middleware = (request: NextRequest) => {
 
 // applies the middleware only to the ResultsPage route, allowing LoginPage to be accessed without authentication
 export const config = {
-    matcher: ["/ResultsPage"],
+    matcher: ["/results/:path*s"],
 }
