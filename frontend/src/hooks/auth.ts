@@ -1,3 +1,5 @@
+// use client means this file will be bundled and run in the browser, not on the server
+// this is because it uses hooks from the auth library, which rely on browser APIs like cookies and local storage
 "use client";
 
 import { useAuthActions } from "@convex-dev/auth/react";
