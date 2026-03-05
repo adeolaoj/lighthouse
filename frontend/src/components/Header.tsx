@@ -2,17 +2,10 @@
 
 export default function Header() {
   return (
-    <div style={{
-      display: "flex",
-      alignItems: "center",
-      padding: "0 20px",
-      height: "56px",
-      flexShrink: 0,
-      borderBottom: "1px solid rgba(192,132,252,0.1)",
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "9px" }}>
+    <div className="flex items-center px-5 h-14 shrink-0 border-b border-purple-600/10">
+      <div className="flex items-center gap-1">
         {/* Insert Lighthouse Logo Here */}
-        <span style={{ fontSize: "15px", fontWeight: "500", color: "white", letterSpacing: "-0.3px" }}>
+        <span className="text-sm font-medium text-white tracking-tight font-poppins">
           lighthouse
         </span>
       </div>

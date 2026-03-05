@@ -14,30 +14,10 @@ export default function NavButton({ isActive, isOpen, icon, label, onClick }: Na
   return (
     <button
       onClick={onClick}
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        gap: isOpen ? "12px" : "0",
-        justifyContent: isOpen ? "flex-start" : "center",
-        padding: isOpen ? "10px 14px" : "10px",
-        borderRadius: "10px",
-        marginBottom: "4px",
-        border: "none",
-        background: isActive ? "rgba(192,132,252,0.18)" : "transparent",
-        color: isActive ? "#E9D5FF" : "rgba(148,163,184,0.55)",
-        fontSize: "13px",
-        fontWeight: isActive ? "500" : "400",
-        fontFamily: "'Poppins', sans-serif",
-        cursor: "pointer",
-        textAlign: "left",
-        transition: "all 0.2s",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-      }}
+      className={`w-full flex items-center ${isOpen ? 'gap-3 justify-start px-3.5' : 'gap-0 justify-center px-2.5'} py-2.5 rounded-lg mb-1 border-none ${isActive ? 'bg-purple-600/20' : 'bg-transparent'} ${isActive ? 'text-purple-light' : 'text-slate-400/55'} text-xs ${isActive ? 'font-medium' : 'font-normal'} font-poppins cursor-pointer text-left transition-all whitespace-nowrap overflow-hidden`}
       aria-current={isActive ? "page" : undefined}
     >
-      <div style={{ flexShrink: 0 }}>{icon}</div>
+      <div className="shrink-0">{icon}</div>
       {isOpen && label}
     </button>
   );

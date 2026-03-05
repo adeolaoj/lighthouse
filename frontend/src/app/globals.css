@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .bg-gradient-dark {
+    @apply bg-gradient-to-br from-[#0A0714] via-[#110A24] to-[#0E0919];
+    background-position: 0% 0%, 50% 100%;
+  }
+
+  .glass-panel {
+    @apply relative z-10 flex-1 rounded-2xl backdrop-blur-lg border border-purple-600/15 flex flex-col overflow-hidden text-slate-100;
+    background-color: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset, 0 32px 80px rgba(0, 0, 0, 0.5);
+  }
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
