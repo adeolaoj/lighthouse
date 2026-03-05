@@ -135,7 +135,7 @@ export default function SignupCard() {
       <GoogleSignupButton />
 
       <p className="signin-text">
-        Already have an account? <Link href="/login">Sign in here</Link>
+        Already have an account? <Link href="/signup">Sign in here</Link>
       </p>
     </section>
   )

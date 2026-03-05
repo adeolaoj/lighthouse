@@ -82,7 +82,7 @@ export default function LoginPage() {
       <Background />
 
       <LogoBar />
-      <BackLink href="/login" label="Back to sign in" />
+      <BackLink href="/signup" label="Back to sign in" />
 
       <main className="page">
         <Hero />
