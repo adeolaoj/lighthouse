@@ -59,9 +59,9 @@ export default function Hero() {
           Research Portal
         </div>
   
-        <h1 className="create-title">Get started.</h1>
+        <h1 className="create-title">Get started</h1>
         <p className="hero-sub">
-          Create your account and start discovering research opportunities that match your academic profile.
+          Create your account and start discovering research opportunities that match your academic profile
         </p>
       </section>
     )

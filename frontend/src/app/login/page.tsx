@@ -69,8 +69,8 @@ export default function LoginPage() {
 
 'use client'
 
-import Background from '@/components/login/background'
-import LogoBar from '@/components/login/logoBar'
+import Background from '@/components/ui/background'
+import LogoBar from '@/components/ui/logoBar'
 import BackLink from '@/components/login/backLink'
 import Hero from '@/components/login/hero'
 import SignupCard from '@/components/login/signupCard'
