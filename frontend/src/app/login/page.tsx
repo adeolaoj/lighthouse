@@ -1,9 +1,9 @@
-'use client'
+//'use client'
 
+/*
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useToken } from '../providers'
-
 declare global {
   interface Window {
     google?: any
@@ -62,6 +62,35 @@ export default function LoginPage() {
           If the button doesn't load, check console for errors.
         </p>
       </div>
+    </div>
+  )
+}
+*/
+
+'use client'
+
+import Background from '@/components/ui/background'
+import LogoBar from '@/components/ui/logoBar'
+import BackLink from '@/components/login/backLink'
+import Hero from '@/components/login/hero'
+import SignupCard from '@/components/login/signupCard'
+import GlassCard from '@/components/ui/glassCard'
+
+export default function LoginPage() {
+  return (
+    <div className="lh-root">
+      <Background />
+
+      <LogoBar />
+      <BackLink href="/signup" label="Back to sign in" />
+
+      <main className="page">
+        <Hero />
+        {/*<GlassCard>*/}
+        <SignupCard />
+        {/*</GlassCard>*/}
+        <div className="line-accent" />
+      </main>
     </div>
   )
 }
