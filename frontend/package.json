@@ -12,6 +12,7 @@
     "convex:codegen": "cd ../backend && npx convex codegen"
   },
   "dependencies": {
+    "@convex-dev/auth": "^0.0.91",
     "convex": "^1.0.0",
     "next": "^15.0.0",
     "react": "^18.2.0",
