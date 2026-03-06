@@ -9,7 +9,6 @@ export const get_opportunities = query({
 
       return opportunities.map((opportunity) => ({
         id: opportunity._id,
-        title: opportunity.title,
         labURL: opportunity.labURL,
         labName: opportunity.labName,
         labDescription: opportunity.labDescription,
