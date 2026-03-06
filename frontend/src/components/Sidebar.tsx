@@ -30,12 +30,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
   return (
     <aside
-      style={{
-        width: SIDEBAR_W,
-        transition: "width 0.28s cubic-bezier(0.4,0,0.2,1)",
-        height: "calc(100vh - 56px - 40px)",
-      }}
-      className="shrink-0 border-r border-purple-600/10 flex flex-col overflow-hidden sticky top-0 self-start"
+      style={{ width: SIDEBAR_W }}
+      className="
+        h-[calc(100vh-96px)]
+        shrink-0 border-r border-purple-600/10
+        flex flex-col overflow-hidden sticky top-0 self-start
+        transition-[width] duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+      "
     >
 
       {/* Collapse toggle */}
@@ -45,7 +46,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
 
       {/* User block */}
       <div className={`p-3.5 flex items-center ${sidebarOpen ? 'justify-start' : 'justify-center'} gap-2.5 border-b border-purple-600/8`}>
-        <div className="w-9 h-9 rounded-full shrink-0 bg-purple-600/20 border-1.5 border-purple-600/45 flex items-center justify-center text-xs font-semibold text-purple-light font-poppins">
+        <div className="w-9 h-9 rounded-full shrink-0 bg-purple-600/20 border-[1.5px] border-purple-600/45 flex items-center justify-center text-xs font-semibold text-purple-light font-poppins">
           SN
         </div>
         {sidebarOpen && (
