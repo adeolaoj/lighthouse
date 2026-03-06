@@ -113,37 +113,52 @@ Example format:
 
 -->
 
-### R4 – Google OAuth Login
+### R1 – Results Page
 
-- Task: Configure Google OAuth 2.0 credentials in Google Cloud Console and store keys securely in environment variables.
+- Task: Define the data schema/API contract for opportunity records returned to the frontend.
   - Type: task
   - Assignee(s): @Nikay
-  - Requirement Number: #R4
+  - Requirement Number: #R1
 
-- Task: Implement OAuth login flow in the backend using Convex auth or a compatible middleware.
+- Task: Implement a backend query/endpoint that fetches opportunity records from the database.
+  - Type: feature
+  - Assignee(s): @Alysha
+  - Requirement Number: #R1
+
+- Task: Build the Results Page UI.
+  - Type: feature
+  - Assignee(s): @Adeola
+  - Requirement Number: #R1
+
+- Task: Set up route protection middleware and authentication guard logic to secure the Results Page endpoint.
+  - Type: feature
+  - Assignee(s): @Alysha
+  - Requirement Number: #R1
+
+- Task: Build the Opportunity Card component — renders lab name, professor(s), research focus, required background.
+  - Type: feature
+  - Assignee(s): @Adeola
+  - Requirement Number: #R1
+
+- Task: Handle missing fields gracefully — display "Not specified" for any absent metadata.
+  - Type: task
+  - Assignee(s): TBD
+  - Requirement Number: #R1
+
+- Task: Implement the empty state UI for when no opportunities are in the database.
   - Type: feature
   - Assignee(s): @Nikay
-  - Requirement Number: #R4
+  - Requirement Number: #R1
 
-- Task: Build the login page UI with a "Sign in with Google" button.
-  - Type: feature
-  - Assignee(s): @Nikay
-  - Requirement Number: #R4
-
-- Task: Implement session management (store and validate user session; handle token refresh).
-  - Type: feature
-  - Assignee(s): @Ryan
-  - Requirement Number: #R4
-
-- Task: Implement route guards — redirect unauthenticated users to login page.
-  - Type: feature
-  - Assignee(s): @Ryan
-  - Requirement Number: #R4
-
-- Task: Test: successful login, cancelled login, session persistence, and unauthorized route access.
+- Task: Connect the results page to the backend query and render live data.
   - Type: task
   - Assignee(s): @Nikay, @Ryan
-  - Requirement Number: #R4
+  - Requirement Number: #R1
+
+- Task: Test: page load with data, empty state, missing field handling, mobile responsiveness, unauthenticated access redirect.
+  - Type: task
+  - Assignee(s): @Alysha, @Nikay
+  - Requirement Number: #R1
 
 ---
 
@@ -206,55 +221,6 @@ Example format:
 
 ---
 
-### R1 – Results Page
-
-- Task: Define the data schema/API contract for opportunity records returned to the frontend.
-  - Type: task
-  - Assignee(s): @Nikay
-  - Requirement Number: #R1
-
-- Task: Implement a backend query/endpoint that fetches opportunity records from the database.
-  - Type: feature
-  - Assignee(s): @Alysha
-  - Requirement Number: #R1
-
-- Task: Build the Results Page UI.
-  - Type: feature
-  - Assignee(s): @Adeola
-  - Requirement Number: #R1
-
-- Task: Set up route protection middleware and authentication guard logic to secure the Results Page endpoint.
-  - Type: feature
-  - Assignee(s): @Alysha
-  - Requirement Number: #R1
-
-- Task: Build the Opportunity Card component — renders lab name, professor(s), research focus, required background.
-  - Type: feature
-  - Assignee(s): @Adeola
-  - Requirement Number: #R1
-
-- Task: Handle missing fields gracefully — display "Not specified" for any absent metadata.
-  - Type: task
-  - Assignee(s): TBD
-  - Requirement Number: #R1
-
-- Task: Implement the empty state UI for when no opportunities are in the database.
-  - Type: feature
-  - Assignee(s): @Nikay
-  - Requirement Number: #R1
-
-- Task: Connect the results page to the backend query and render live data.
-  - Type: task
-  - Assignee(s): @Nikay, @Ryan
-  - Requirement Number: #R1
-
-- Task: Test: page load with data, empty state, missing field handling, mobile responsiveness, unauthenticated access redirect.
-  - Type: task
-  - Assignee(s): @Alysha, @Nikay
-  - Requirement Number: #R1
-
----
-
 ### R3 – Periodic Scraping / Data Freshness
 
 - Task: Decide and document the scraping interval.
@@ -281,3 +247,35 @@ Example format:
   - Type: task
   - Assignee(s): @Ariel, @Adeola
   - Requirement Number: #R3
+---
+### R4 – Google OAuth Login
+
+- Task: Configure Google OAuth 2.0 credentials in Google Cloud Console and store keys securely in environment variables.
+  - Type: task
+  - Assignee(s): @Nikay
+  - Requirement Number: #R4
+
+- Task: Implement OAuth login flow in the backend using Convex auth or a compatible middleware.
+  - Type: feature
+  - Assignee(s): @Nikay
+  - Requirement Number: #R4
+
+- Task: Build the login page UI with a "Sign in with Google" button.
+  - Type: feature
+  - Assignee(s): @Nikay
+  - Requirement Number: #R4
+
+- Task: Implement session management (store and validate user session; handle token refresh).
+  - Type: feature
+  - Assignee(s): @Ryan
+  - Requirement Number: #R4
+
+- Task: Implement route guards — redirect unauthenticated users to login page.
+  - Type: feature
+  - Assignee(s): @Ryan
+  - Requirement Number: #R4
+
+- Task: Test: successful login, cancelled login, session persistence, and unauthorized route access.
+  - Type: task
+  - Assignee(s): @Nikay, @Ryan
+  - Requirement Number: #R4

@@ -12,15 +12,13 @@ export default defineSchema({
   }).index("by_tokenIdentifier", ["tokenIdentifier"]),
 
   opportunities: defineTable({
-    id: v.string(),
     title: v.string(),
     labURL: v.string(),
-    labName: v.string(),
+    labName: v.string(), 
     labDescription: v.string(),
-    headFaculty: v.string(),
-    opportunityType: v.string(),
-    researcherInformation: v.string(),
-    researchFocus: v.string(),
-    postedAt: v.optional(v.number()),
+    headFaculty: v.string(), 
+    opportunityType: v.string(), 
+    researcherInformation: v.string(), 
+    researchFocus: v.string(), 
   }),
 })
