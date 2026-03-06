@@ -11,20 +11,7 @@ export default function CollapseButton({ isOpen, onClick }: CollapseButtonProps)
   return (
     <button
       onClick={onClick}
-      style={{
-        width: 28,
-        height: 28,
-        borderRadius: "8px",
-        background: "rgba(192,132,252,0.1)",
-        border: "1px solid rgba(192,132,252,0.2)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        color: "#C084FC",
-        transition: "all 0.2s",
-        flexShrink: 0,
-      }}
+      className="w-7 h-7 rounded-lg bg-purple-600/10 border border-purple-600/20 flex items-center justify-center cursor-pointer text-purple-primary transition-all shrink-0 hover:bg-purple-600/20"
       aria-label={isOpen ? "Collapse sidebar" : "Expand sidebar"}
     >
       {isOpen ? (

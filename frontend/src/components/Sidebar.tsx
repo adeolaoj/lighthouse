@@ -29,54 +29,36 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const SIDEBAR_W = sidebarOpen ? 240 : 68;
 
   return (
-    <aside style={{
-      width: SIDEBAR_W,
-      flexShrink: 0,
-      transition: "width 0.28s cubic-bezier(0.4,0,0.2,1)",
-      borderRight: "1px solid rgba(192,132,252,0.1)",
-      display: "flex",
-      flexDirection: "column",
-      overflow: "hidden",
-      position: "sticky",
-      top: 0,
-      alignSelf: "flex-start",
-      height: "calc(100vh - 56px - 40px)",
-    }}>
+    <aside
+      style={{ width: SIDEBAR_W }}
+      className="
+        h-[calc(100vh-96px)]
+        shrink-0 border-r border-purple-600/10
+        flex flex-col overflow-hidden sticky top-0 self-start
+        transition-[width] duration-[280ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+      "
+    >
 
       {/* Collapse toggle */}
-      <div style={{
-        display: "flex", alignItems: "center",
-        justifyContent: sidebarOpen ? "flex-end" : "center",
-        padding: "12px 10px 8px",
-      }}>
+      <div className={`flex items-center ${sidebarOpen ? 'justify-end' : 'justify-center'} px-2.5 py-3 pb-2`}>
         <CollapseButton isOpen={sidebarOpen} onClick={() => setSidebarOpen(!sidebarOpen)} />
       </div>
 
       {/* User block */}
-      <div style={{
-        padding: "14px",
-        display: "flex", alignItems: "center",
-        justifyContent: sidebarOpen ? "flex-start" : "center",
-        gap: "10px",
-        borderBottom: "1px solid rgba(192,132,252,0.08)",
-      }}>
-        <div style={{
-          width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
-          background: "rgba(192,132,252,0.2)",
-          border: "1.5px solid rgba(192,132,252,0.45)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: "11px", fontWeight: "600", color: "#E9D5FF",
-        }}>SN</div>
+      <div className={`p-3.5 flex items-center ${sidebarOpen ? 'justify-start' : 'justify-center'} gap-2.5 border-b border-purple-600/8`}>
+        <div className="w-9 h-9 rounded-full shrink-0 bg-purple-600/20 border-[1.5px] border-purple-600/45 flex items-center justify-center text-xs font-semibold text-purple-light font-poppins">
+          SN
+        </div>
         {sidebarOpen && (
-          <div style={{ overflow: "hidden" }}>
-            <div style={{ fontSize: "13px", fontWeight: "500", color: "white", whiteSpace: "nowrap", fontFamily: "'Poppins', sans-serif" }}>Student Name</div>
-            <div style={{ fontSize: "11px", color: "rgba(196,181,253,0.5)", fontWeight: "400", whiteSpace: "nowrap", fontFamily: "'Poppins', sans-serif" }}>CS | Junior</div>
+          <div className="overflow-hidden">
+            <div className="text-xs font-medium text-white whitespace-nowrap font-poppins">Student Name</div>
+            <div className="text-xs text-purple-light/50 font-normal whitespace-nowrap font-poppins">CS | Junior</div>
           </div>
         )}
       </div>
 
       {/* Nav links */}
-      <nav style={{ padding: "12px 10px", flex: 1 }}>
+      <nav className="px-2.5 py-3 flex-1">
         {NAV_ITEMS.map(item => (
           <NavButton
             key={item.label}

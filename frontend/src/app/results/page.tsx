@@ -8,13 +8,10 @@ export default function ResultsPage() {
 
   return (
     <PageLayout sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-      <div className="scroll-area" style={{ flex: 1, minWidth: 0, overflow: "auto" }}>
-        <main style={{ padding: "32px 32px 60px", flex: 1 }}>
+      <div className="scroll-area flex-1 min-w-0 overflow-auto">
+        <main className="px-8 pt-8 pb-[60px]">
           {/* Page content will go here */}
-          <h1 style={{
-            fontSize: "28px", fontWeight: "600", color: "white",
-            margin: "0 0 24px", letterSpacing: "-0.5px",
-          }}>
+          <h1 className="text-[28px] font-semibold text-white mb-6 tracking-tight">
             Opportunities for You
           </h1>
         </main>
