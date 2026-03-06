@@ -5,4 +5,7 @@ export default {
       applicationID: process.env.AUTH_GOOGLE_ID!,
     },
   ],
+  session: {
+    maxAge: 60, // 7 days
+  },
 }
