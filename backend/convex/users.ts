@@ -45,7 +45,8 @@ export const syncMe = mutation({
 
     if (!existing) {
       return await ctx.db.insert("userProfiles", {
-        ...data
+        ...data,
+        createdAt: now,
       });
     }
 
