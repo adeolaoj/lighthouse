@@ -1,6 +1,6 @@
 'use client'
 
-import { ConvexProviderWithAuth, ConvexReactClient, ConvexProvider} from 'convex/react'
+import { ConvexProviderWithAuth, ConvexReactClient} from 'convex/react'
 import { useCallback, useMemo, useState, createContext, useContext } from 'react'
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
@@ -27,17 +27,10 @@ function useGoogleAuth() {
 export function Providers({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null)
   return (
-     <TokenContext.Provider value={{ token, setToken }}>
-      <ConvexProvider client={convex}>
+    <TokenContext.Provider value={{ token, setToken }}>
+      <ConvexProviderWithAuth client={convex} useAuth={useGoogleAuth}>
         {children}
-      </ConvexProvider>
+      </ConvexProviderWithAuth>
     </TokenContext.Provider>
-
-    // TODO: CHANGE BACK ONCE GOOGLE AUTH IS WORKING!!!!!!!
-    // <TokenContext.Provider value={{ token, setToken }}>
-    //   <ConvexProviderWithAuth client={convex} useAuth={useGoogleAuth}>
-    //     {children}
-    //   </ConvexProviderWithAuth>
-    // </TokenContext.Provider>
   )
 }
