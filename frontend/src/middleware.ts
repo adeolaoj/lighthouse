@@ -1,27 +1,17 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import {
+  convexAuthNextjsMiddleware,
+  createRouteMatcher,
+  nextjsMiddlewareRedirect,
+} from '@convex-dev/auth/nextjs/server';
 
-// function runs before a page loads, checks for auth cookie, if not present redirects to login page
-export const middleware = (request: NextRequest) => {
+const isProtectedRoute = createRouteMatcher(['/results(.*)']);
 
-    // check for cookie
-    const token =
-        request.cookies.get("authjs.session-token") ||
-        request.cookies.get("__Secure-authjs.session-token");
+export default convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
+  if (isProtectedRoute(request) && !(await convexAuth.isAuthenticated())) {
+    return nextjsMiddlewareRedirect(request, '/login');
+  }
+});
 
-    if (!token) {
-        // builds the login url e.g. http://localhost:3000/login
-        const loginUrl = new URL("/login", request.url);
-        // allows app to redirect back to the originally requested page after login
-        loginUrl.searchParams.set("redirect", request.nextUrl.pathname);
-        // redirects to login page
-        return NextResponse.redirect(loginUrl);
-    }
-    // if cookie is present, allow access to the page
-    return NextResponse.next();
-}
-
-// applies the middleware only to the ResultsPage route, allowing LoginPage to be accessed without authentication
 export const config = {
-    matcher: ["/results/:path*"],
-}
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+};
