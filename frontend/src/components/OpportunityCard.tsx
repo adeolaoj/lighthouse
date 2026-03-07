@@ -8,7 +8,7 @@ interface OpportunityCardProps {
   opportunity: Opportunity;
   saved: boolean;
   animationDelay?: number;
-  onToggleSave: (id: number) => void;
+  onToggleSave: (id: string) => void;
   onViewLab: (opportunity: Opportunity) => void;
 }
 
@@ -19,7 +19,17 @@ export function OpportunityCard({
   onToggleSave,
   onViewLab,
 }: OpportunityCardProps) {
-  const { id, lab, professor, department, focus, whyMatch, status, paid, color } = opportunity;
+  const {
+    id,
+    labName,
+    labDescription,
+    headFaculty,
+    opportunityType,
+    researcherInformation,
+    researchFocus,
+    researchPositionTitle,
+    color,
+  } = opportunity;
 
   return (
     <div
@@ -33,7 +43,7 @@ export function OpportunityCard({
       "
       style={{ animationDelay: `${animationDelay}s` }}
     >
-      {/* Accent bar — dynamic color, must stay inline */}
+      {/* Accent bar */}
       <div
         className="h-[2px] opacity-75"
         style={{ background: color }}
@@ -45,10 +55,10 @@ export function OpportunityCard({
         <div className="flex items-start gap-3 mb-[10px]">
           <div className="flex-1 min-w-0">
             <h3 className="text-[14px] font-semibold text-white m-0 mb-[3px] leading-[1.3] tracking-[-0.1px]">
-              {lab}
+              {researchPositionTitle ?? labName}
             </h3>
             <p className="text-[12px] font-normal m-0 text-purple-200/50">
-              {professor} &bull; {department}
+              {headFaculty} &bull; {opportunityType}
             </p>
           </div>
 
@@ -63,11 +73,12 @@ export function OpportunityCard({
         <div className="grid grid-cols-2 gap-[10px] mb-[14px]">
           <InfoBlock
             label="Lab Description"
-            content={focus}
+            content={labDescription}
           />
           <InfoBlock
             label="Why It's a Match"
-            content={whyMatch}
+            // Will be updated to show match insights in the future
+            content={researcherInformation ? researcherInformation : "Your profile matches the research focus and requirements of this lab."}
             accentColor={color}
           />
         </div>

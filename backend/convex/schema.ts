@@ -15,7 +15,7 @@ export default defineSchema({
     labURL: v.string(),
     labName: v.string(),
     labDescription: v.string(),
-    headFaculty: v.optional(v.string()),
+    headFaculty: v.string(),
     opportunityType: v.optional(v.string()),
     researcherInformation: v.optional(v.string()),
     researchFocus: v.optional(v.string()),
