@@ -3,6 +3,8 @@
 import { useState } from "react";
 import {useEffect} from "react";
 import PageLayout from "@/components/PageLayout";
+import { useQuery } from "convex/react";
+import {api} from "@convex/_generated/api";
 
 type Opportunity = {
   id: string;
@@ -16,6 +18,12 @@ type Opportunity = {
   researcherInformation: string;
   ResearchFocus: string;
   postedAt: number;
+}
+
+export function get_opportunities() {
+  const opportunities = useQuery(api.opportunities.get_opportunities, {});
+
+  return opportunities;
 }
 
 export default function ResultsPage() {
