@@ -6,7 +6,7 @@ export default function GoogleSignupButton() {
   const { signIn } = useAuthActions()
 
   const handleClick = async () => {
-    await signIn('google', { redirectTo: '/results' })
+    await signIn('google', { redirectTo: 'http://localhost:3000/results' })
   }
 
   return (
