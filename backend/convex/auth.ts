@@ -5,6 +5,6 @@ export const { auth, signIn, signOut, store } = convexAuth({
   providers: [Google],
 
   session: {
-    totalDurationMs: 60 * 1000, // 7 days in milliseconds
+    totalDurationMs: 60 * 1000 * 7 * 24 * 60, // 7 days in milliseconds
   },
 });
