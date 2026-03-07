@@ -1,16 +1,13 @@
-
-
-export type MatchStatus = "Strong Match" | "Good Match" | "Potential Match";
-
-export interface Opportunity {
-  id: number;
-  lab: string;
-  professor: string;
-  department: string;
-  focus: string;
-  whyMatch: string;
-  status: MatchStatus;
-  openings: number;
-  paid: boolean;
+export type Opportunity = {
+  id: string;
+  labURL: string;
+  labName: string;
+  labDescription: string;
+  headFaculty: string;
+  opportunityType?: string;
+  researcherInformation?: string;
+  researchFocus?: string;
+  researchPositionTitle?: string;
+  postedAt: number;
   color: string;
-}
+};
