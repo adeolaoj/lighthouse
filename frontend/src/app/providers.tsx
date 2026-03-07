@@ -25,12 +25,11 @@ function useGoogleAuth() {
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(null)
   return (
-    <TokenContext.Provider value={{ token, setToken }}>
-      <ConvexProviderWithAuth client={convex} useAuth={useGoogleAuth}>
+    <ConvexAuthNextjsServerProvider>
+      <ConvexClientProvider>
         {children}
-      </ConvexProviderWithAuth>
-    </TokenContext.Provider>
+      </ConvexClientProvider>
+    </ConvexAuthNextjsServerProvider>
   )
 }

@@ -20,6 +20,14 @@ export const getMe = query({
   },
 });
 
+export const isAuthenticated = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    return identity !== null;
+  },
+});
+
 export const syncMe = mutation({
   args: {},
   handler: async (ctx) => {
