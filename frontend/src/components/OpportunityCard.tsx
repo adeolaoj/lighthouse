@@ -24,8 +24,6 @@ export function OpportunityCard({
     labName,
     labDescription,
     headFaculty,
-    opportunityType,
-    researcherInformation,
     researchFocus,
     researchPositionTitle,
     color,
@@ -33,6 +31,7 @@ export function OpportunityCard({
 
   return (
     <div
+      data-testid="opportunity-card"
       className="
         opportunity-card
         inline-block w-full rounded-2xl overflow-hidden
@@ -45,6 +44,7 @@ export function OpportunityCard({
     >
       {/* Accent bar */}
       <div
+        data-testid="accent-bar"
         className="h-[2px] opacity-75"
         style={{ background: color }}
       />
@@ -55,10 +55,14 @@ export function OpportunityCard({
         <div className="flex items-start gap-3 mb-[10px]">
           <div className="flex-1 min-w-0">
             <h3 className="text-[14px] font-semibold text-white m-0 mb-[3px] leading-[1.3] tracking-[-0.1px]">
-              {researchPositionTitle ?? labName}
+              {labName ?? "Not Specified"}
             </h3>
+            {/* Display head faculty and research focus, or "Not Specified" if missing */}
             <p className="text-[12px] font-normal m-0 text-purple-200/50">
               {headFaculty} &bull; {researchFocus ?? "Not Specified"}
+            </p>
+            <p className="text-[12px] font-normal m-0 text-purple-200/50">
+              {researchPositionTitle ?? "Not Specified"}
             </p>
           </div>
 
@@ -78,7 +82,7 @@ export function OpportunityCard({
           <InfoBlock
             label="Why It's a Match"
             // Will be updated to show match insights in the future
-            content={researcherInformation ? researcherInformation : "Your profile matches the research focus and requirements of this lab."}
+            content="Your profile matches the research focus and requirements of this lab."
             accentColor={color}
           />
         </div>

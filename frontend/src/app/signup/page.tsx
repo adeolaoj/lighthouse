@@ -5,7 +5,6 @@ import LogoBar from '@/components/ui/logoBar'
 import BackLink from '@/components/login/backLink'
 import Hero from '@/components/signup/header'
 import LoginCard from '@/components/signup/loginCard'
-import GlassCard from '@/components/ui/glassCard'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useConvexAuth } from 'convex/react'
 import { useEffect } from 'react'
@@ -19,8 +18,8 @@ export default function SignupPage() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const { isAuthenticated, isLoading } = useConvexAuth()
-    const isOauthAttempt = searchParams.get('oauth') === 'google'
-    const oauthErrorMessage = getOauthErrorMessage(searchParams.get('error'))
+    const isOauthAttempt = searchParams?.get('oauth') === 'google'
+    const oauthErrorMessage = getOauthErrorMessage(searchParams?.get('error') ?? null)
 
     useEffect(() => {
       if (!isLoading && isAuthenticated && isOauthAttempt && !oauthErrorMessage) {

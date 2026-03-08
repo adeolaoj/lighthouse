@@ -19,9 +19,7 @@ function computeStrength(pw: string): Strength {
 
 export default function LoginCard() {
   const [pw1, setPw1] = useState('')
-  const [pw2, setPw2] = useState('')
   const [showPw1, setShowPw1] = useState(false)
-  const [showPw2, setShowPw2] = useState(false)
 
   const strength = useMemo(() => computeStrength(pw1), [pw1])
   const strengthClass = strength <= 1 ? 'weak' : strength <= 2 ? 'medium' : 'strong'
@@ -94,7 +92,7 @@ export default function LoginCard() {
       <GoogleSignupButton />
 
       <p className="signin-text">
-        Don't have an account? <Link href="/login">Create one</Link>
+        Don`&apos;`t have an account? <Link href="/login">Create one</Link>
       </p>
     </section>
   )
