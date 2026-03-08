@@ -100,182 +100,385 @@ who is responsible for what, and any dependencies between tasks
 
 ## Task Breakdown
 
-<!--
-
-Break requirements into GitHub issues. Update this section with the tasks for the current iteration.
-
-Example format:
-
-- Task: ...
-  - Type: feature/task/bug
-  - Assignee(s): @name(s)
-  - Requirement Number: #N
-
--->
-
 ### R1 – Results Page
 
+- Task: R1 - Results Page (epic)
+  - Issue: #1
+  - Type: task
+  - Status: CLOSED
+
 - Task: Define the data schema/API contract for opportunity records returned to the frontend.
+  - Issue: #8
   - Type: task
   - Assignee(s): @Nikay
-  - Requirement Number: #R1
+  - Status: CLOSED
 
 - Task: Implement a backend query/endpoint that fetches opportunity records from the database.
+  - Issue: #11
   - Type: feature
   - Assignee(s): @Alysha
-  - Requirement Number: #R1
+  - Status: CLOSED
 
 - Task: Build the Results Page UI.
+  - Issue: #13
   - Type: feature
   - Assignee(s): @Adeola
-  - Requirement Number: #R1
+  - Status: CLOSED
 
 - Task: Set up route protection middleware and authentication guard logic to secure the Results Page endpoint.
+  - Issue: #16
   - Type: feature
   - Assignee(s): @Alysha
-  - Requirement Number: #R1
+  - Status: CLOSED
 
 - Task: Build the Opportunity Card component — renders lab name, professor(s), research focus, required background.
+  - Issue: #18
   - Type: feature
   - Assignee(s): @Adeola
-  - Requirement Number: #R1
+  - Status: CLOSED
 
 - Task: Handle missing fields gracefully — display "Not specified" for any absent metadata.
+  - Issue: #21
   - Type: task
-  - Assignee(s): TBD
-  - Requirement Number: #R1
+  - Status: CLOSED
 
 - Task: Implement the empty state UI for when no opportunities are in the database.
+  - Issue: #25
   - Type: feature
   - Assignee(s): @Nikay
-  - Requirement Number: #R1
+  - Status: CLOSED
 
 - Task: Connect the results page to the backend query and render live data.
+  - Issue: #26
   - Type: task
   - Assignee(s): @Nikay, @Ryan
-  - Requirement Number: #R1
+  - Status: CLOSED
 
 - Task: Test: page load with data, empty state, missing field handling, mobile responsiveness, unauthenticated access redirect.
+  - Issue: #28
   - Type: task
   - Assignee(s): @Alysha, @Nikay
-  - Requirement Number: #R1
+  - Status: CLOSED
+
+- Task: Remove redundant id and postedAt fields.
+  - Issue: #74
+  - Type: bug
+  - Status: CLOSED
+
+- Task: Fix post-login redirect.
+  - Issue: #81
+  - Type: bug
+  - Status: CLOSED
+
+- Task: Correct Convex Schema.
+  - Issue: #82
+  - Type: task
+  - Status: CLOSED
+
+- Task: Fix get_opportunities.
+  - Issue: #84
+  - Type: task
+  - Status: CLOSED
+
+- Task: Display data from Convex on results page.
+  - Issue: #87
+  - Type: task
+  - Status: CLOSED
+
+- Task: Deploy R1 Results Page and R2 Google Auth to Vercel.
+  - Issue: #91
+  - Type: task
+  - Status: CLOSED
+
+- Task: Prepare Code for Deployment.
+  - Issue: #100
+  - Type: task
+  - Status: CLOSED
+
+- Task: Fix Numbered Features.
+  - Issue: #101
+  - Type: bug
+  - Status: CLOSED
+
+- Task: Correct OpportunityCard component behavior.
+  - Issue: #103
+  - Type: bug
+  - Status: CLOSED
+
+- Task: Update Opportunities Schema.
+  - Issue: #108
+  - Type: task
+  - Status: CLOSED
+
+- Task: Fix useSearchParams() null safety on login and signup pages.
+  - Issue: #110
+  - Type: bug
+  - Status: CLOSED
+
+- Task: Sign Up and Sign In buttons bypass authentication.
+  - Issue: #114
+  - Type: bug
+  - Status: CLOSED
 
 ---
 
 ### R2 – AI-Powered Scraping Pipeline
 
+- Task: R2 – AI-Powered Scraping Pipeline (epic)
+  - Issue: #2
+  - Type: task
+  - Status: CLOSED
+
 - Task: Define and document the list of seed URLs for Hopkins CS and LCSR websites.
+  - Issue: #5
   - Type: task
   - Assignee(s): @all
-  - Requirement Number: #R2
+  - Status: CLOSED
 
 - Task: Set up Puppeteer/Chrome MCP environment and verify it can load target pages.
+  - Issue: #7
   - Type: task
   - Assignee(s): @Ariel, @Adeola
-  - Requirement Number: #R2
+  - Status: CLOSED
+
+- Task: Set up Puppeteer.
+  - Issue: #50
+  - Type: task
+  - Assignee(s): @Ariel, @Adeola
+  - Status: CLOSED
 
 - Task: Implement the crawler: visit seed URLs, follow relevant internal links, and extract raw page text/HTML.
+  - Issue: #9
   - Type: feature
   - Assignee(s): @Ariel
-  - Requirement Number: #R2
+  - Status: CLOSED
+
+- Task: Implement extraction of relevant links.
+  - Issue: #49
+  - Type: feature
+  - Assignee(s): @Ariel
+  - Status: CLOSED
+
+- Task: Web-crawl into more layers.
+  - Issue: #56
+  - Type: task
+  - Status: CLOSED
+
+- Task: Try the same web-crawling logic but use playwright.
+  - Issue: #93
+  - Type: task
+  - Status: CLOSED
+
+- Task: Combine the lab URLs under the same lab domain.
+  - Issue: #120
+  - Type: task
+  - Status: CLOSED
 
 - Task: Implement chunking logic — split raw content into consistent segments with defined overlap.
+  - Issue: #10
   - Type: feature
   - Assignee(s): @Adeola, @Ryan, @Ariel
-  - Requirement Number: #R2
+  - Status: CLOSED
 
-- Task: Integrate the chosen embedding model (OpenAI or Claude API) to generate embeddings per chunk.
+- Task: Implement web-scraped data chunking logic.
+  - Issue: #32
+  - Type: task
+  - Assignee(s): @Adeola, @Ryan, @Ariel
+  - Status: CLOSED
+
+- Task: Integrate the chosen embedding model (CLOSEDAI or Claude API) to generate embeddings per chunk.
+  - Issue: #33
   - Type: feature
   - Assignee(s): @Ariel, @Ryan
-  - Requirement Number: #R2
+  - Status: CLOSED
 
 - Task: Set up the vector database and define the data schema.
+  - Issue: #34
   - Type: task
   - Assignee(s): @Alysha, @Nikay
-  - Requirement Number: #R2
+  - Status: CLOSED
+
+- Task: Design the schema.
+  - Issue: #41
+  - Type: task
+  - Status: CLOSED
+
+- Task: Setup a Node Project.
+  - Issue: #42
+  - Type: task
+  - Status: CLOSED
 
 - Task: Implement storage logic — write chunks + embeddings + metadata to the database; handle upsert to avoid duplicates.
+  - Issue: #36
   - Type: feature
   - Assignee(s): @Alysha
-  - Requirement Number: #R2
+  - Status: CLOSED
 
 - Task: Implement error handling — log unreachable pages, continue pipeline on failure.
+  - Issue: #37
   - Type: task
   - Assignee(s): @Ryan
-  - Requirement Number: #R2
+  - Status: CLOSED
 
 - Task: Expose a manual trigger endpoint or script for developer testing.
+  - Issue: #38
   - Type: task
   - Assignee(s): @Nikay
-  - Requirement Number: #R2
+  - Status: CLOSED
 
 - Task: Test: run pipeline end-to-end against at least 3 real Hopkins pages, verify stored records are correct and queryable.
+  - Issue: #40
   - Type: task
   - Assignee(s): @Ariel, @Adeola, @Ryan
-  - Requirement Number: #R2
+  - Status: CLOSED
 
-- Task: Create an evaluation loop that checks whether the web-scaped data is sufficient (whether there’s need to navigate to more urls, or if the web-scape collect enough details about a lab)
+- Task: Create an evaluation loop that checks whether the web-scraped data is sufficient.
+  - Issue: #31
   - Type: task
   - Assignee(s): @Ariel
-  - Requirement Number: #R2
+  - Status: CLOSED
 
 ---
 
 ### R3 – Periodic Scraping / Data Freshness
 
+- Task: R4 - Periodic Scraping / Data Freshness (epic)
+  - Issue: #4
+  - Type: task
+  - Status: CLOSED
+
 - Task: Decide and document the scraping interval.
+  - Issue: #14
   - Type: task
   - Assignee(s): @all
-  - Requirement Number: #R3
+  - Status: CLOSED
 
 - Task: Implement a scheduler to invoke the scraping pipeline at the defined interval.
+  - Issue: #17
   - Type: feature
   - Assignee(s): @Ariel, @Adeola
-  - Requirement Number: #R3
+  - Status: CLOSED
 
 - Task: Implement stale/removed opportunity handling logic (delete, archive, or flag — team decision required).
+  - Issue: #19
   - Type: feature
   - Assignee(s): @Nikay
-  - Requirement Number: #R3
+  - Status: CLOSED
 
 - Task: Add logging so each scheduled run is verifiable (start time, pages visited, records updated, errors).
+  - Issue: #22
   - Type: task
   - Assignee(s): @Ariel
-  - Requirement Number: #R3
+  - Status: CLOSED
 
 - Task: Test: manually trigger the scheduler, verify logs, verify data updates appear on results page.
+  - Issue: #23
   - Type: task
   - Assignee(s): @Ariel, @Adeola
-  - Requirement Number: #R3
+  - Status: CLOSED
+
 ---
+
 ### R4 – Google OAuth Login
 
+- Task: R3 - Google OAuth Login (epic)
+  - Issue: #3
+  - Type: task
+  - Status: CLOSED
+
 - Task: Configure Google OAuth 2.0 credentials in Google Cloud Console and store keys securely in environment variables.
+  - Issue: #15
   - Type: task
   - Assignee(s): @Nikay
-  - Requirement Number: #R4
+  - Status: CLOSED
+
+- Task: Set Up Google OAuth 2.0 Authentication.
+  - Issue: #6
+  - Type: feature
+  - Assignee(s): @Nikay
+  - Status: CLOSED
 
 - Task: Implement OAuth login flow in the backend using Convex auth or a compatible middleware.
+  - Issue: #12
   - Type: feature
   - Assignee(s): @Nikay
-  - Requirement Number: #R4
+  - Status: CLOSED
 
 - Task: Build the login page UI with a "Sign in with Google" button.
+  - Issue: #20
   - Type: feature
   - Assignee(s): @Nikay
-  - Requirement Number: #R4
+  - Status: CLOSED
+
+- Task: Build Login Page UI.
+  - Issue: #24
+  - Type: feature
+  - Assignee(s): @Nikay
+  - Status: CLOSED
 
 - Task: Implement session management (store and validate user session; handle token refresh).
+  - Issue: #27
   - Type: feature
   - Assignee(s): @Ryan
-  - Requirement Number: #R4
+  - Status: CLOSED
 
 - Task: Implement route guards — redirect unauthenticated users to login page.
+  - Issue: #29
   - Type: feature
   - Assignee(s): @Ryan
-  - Requirement Number: #R4
+  - Status: CLOSED
 
 - Task: Test: successful login, cancelled login, session persistence, and unauthorized route access.
+  - Issue: #30
   - Type: task
   - Assignee(s): @Nikay, @Ryan
-  - Requirement Number: #R4
+  - Status: CLOSED
+
+---
+
+### General / Cross-Cutting
+
+- Task: Create an Iteration plan for Iteration 1.
+  - Issue: #35
+  - Type: task
+  - Status: CLOSED
+
+- Task: Update Claude.md and README.md.
+  - Issue: #44
+  - Type: task
+  - Status: CLOSED
+
+- Task: Update .gitignore.
+  - Issue: #52
+  - Type: task
+  - Status: CLOSED
+
+- Task: Formatting Errors Within Iteration-1-Plan.md.
+  - Issue: #60
+  - Type: bug
+  - Status: CLOSED
+
+- Task: Upload Team Agreement.
+  - Issue: #63
+  - Type: task
+  - Status: CLOSED
+
+- Task: Upload Project Roadmap.
+  - Issue: #64
+  - Type: task
+  - Status: CLOSED
+
+- Task: Upload Product Requirements Documents.
+  - Issue: #65
+  - Type: task
+  - Status: CLOSED
+
+- Task: Combine Features 1 and Features 3 into Dev.
+  - Issue: #97
+  - Type: task
+  - Status: CLOSED
+
+- Task: Update Documents.
+  - Issue: #138
+  - Type: task
+  - Status: CLOSED
