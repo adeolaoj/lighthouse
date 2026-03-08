@@ -12,6 +12,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run"
+    
   },
   "repository": {
     "type": "git",
