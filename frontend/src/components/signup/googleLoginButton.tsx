@@ -1,6 +1,7 @@
 'use client'
 
 import { useAuthActions } from '@convex-dev/auth/react'
+import Image from 'next/image'
 
 export default function GoogleLoginButton() {
   const { signIn, signOut } = useAuthActions()
@@ -16,7 +17,7 @@ export default function GoogleLoginButton() {
 
   return (
     <button className="google-btn" type="button" onClick={handleClick}>
-      <img className="google-icon" src="/web_neutral_rd_na.svg" alt="Google logo" />
+      <Image src="/web_neutral_rd_na.svg" alt="Google logo" width={20} height={20} className="google-icon" />
       <span>Sign in with Google</span>
     </button>
   )

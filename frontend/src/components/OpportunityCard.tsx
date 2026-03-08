@@ -57,8 +57,12 @@ export function OpportunityCard({
             <h3 className="text-[14px] font-semibold text-white m-0 mb-[3px] leading-[1.3] tracking-[-0.1px]">
               {labName ?? "Not Specified"}
             </h3>
+            {/* Display head faculty and research focus, or "Not Specified" if missing */}
             <p className="text-[12px] font-normal m-0 text-purple-200/50">
               {headFaculty} &bull; {researchFocus ?? "Not Specified"}
+            </p>
+            <p className="text-[12px] font-normal m-0 text-purple-200/50">
+              {researchPositionTitle ?? "Not Specified"}
             </p>
           </div>
 
