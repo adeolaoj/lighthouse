@@ -12,8 +12,6 @@ export const get_opportunities = query({
       labName: opportunity.labName,
       labDescription: opportunity.labDescription,
       headFaculty: opportunity.headFaculty,
-      opportunityType: opportunity.opportunityType,
-      researcherInformation: opportunity.researcherInformation,
       researchFocus: opportunity.researchFocus,
       researchPositionTitle: opportunity.researchPositionTitle,
       postedAt: opportunity._creationTime,
