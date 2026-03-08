@@ -30,7 +30,10 @@ async function fillLoginForm({
 describe('LoginCard', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockUseAuthActions.mockReturnValue({ signIn: mockSignIn } as ReturnType<typeof useAuthActions>)
+    mockUseAuthActions.mockReturnValue({ 
+      signIn: mockSignIn,
+      signOut: vi.fn(), 
+    } as unknown as ReturnType<typeof useAuthActions>)
   })
 
   it('renders all sign in fields and actions', () => {

@@ -16,12 +16,14 @@ export default function ResultsPage() {
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
 
   const opportunitiesData = useQuery(api.opportunities.get_opportunities, { limit: 30});
+  const isError = opportunitiesData instanceof Error;
+  
+  const rawOpportunities = isError || !opportunitiesData ? [] : opportunitiesData;
 
   const loading = opportunitiesData === undefined;
-  const isError = opportunitiesData instanceof Error;
   const isEmpty = !loading && !isError && opportunitiesData.length === 0;
 
-  const opportunities: Opportunity[] = (isError || !opportunitiesData ? [] : opportunitiesData).map((opportunity, i) => ({
+  const opportunities: Opportunity[] = rawOpportunities.map((opportunity: (typeof rawOpportunities)[number], i: number) => ({
     id: opportunity.id,
     labURL: opportunity.labURL,
     labName: opportunity.labName,
