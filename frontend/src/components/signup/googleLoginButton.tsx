@@ -3,10 +3,15 @@
 import { useAuthActions } from '@convex-dev/auth/react'
 
 export default function GoogleLoginButton() {
-  const { signIn } = useAuthActions()
+  const { signIn, signOut } = useAuthActions()
 
   const handleClick = async () => {
-    await signIn('google', { redirectTo: 'http://localhost:3000/results' })
+    try {
+      await signOut()
+    } catch {
+      // Ignore sign-out errors and continue with OAuth.
+    }
+    await signIn('google', { redirectTo: '/results' })
   }
 
   return (

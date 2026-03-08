@@ -6,6 +6,12 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
+const OAUTH_CANCEL_MESSAGE = "Google sign-in was cancelled. Please try again.";
+
+type LoginResult =
+  | { ok: true }
+  | { ok: false; message: string };
+
 export function useAuth() {
   const { signIn, signOut } = useAuthActions();
   const router = useRouter();
@@ -13,9 +19,15 @@ export function useAuth() {
 
   const redirect = params?.get("redirect") || "/";
 
-  const login = async () => {
-    await signIn("google");
-    router.push(redirect);
+  const login = async (): Promise<LoginResult> => {
+    try {
+      await signIn("google");
+      router.push(redirect);
+      return { ok: true };
+    } catch {
+      router.push(`/login?error=${encodeURIComponent(OAUTH_CANCEL_MESSAGE)}`);
+      return { ok: false, message: OAUTH_CANCEL_MESSAGE };
+    }
   };
 
   const logout = async () => {
@@ -23,5 +35,5 @@ export function useAuth() {
     router.push("/login");
   };
 
-  return {login, logout};
+  return { login, logout, oauthCancelMessage: OAUTH_CANCEL_MESSAGE };
 }
