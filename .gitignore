@@ -14,6 +14,8 @@
 *.njsproj
 *.sln
 *.sw?
+*.lighthouse_deploy_key
+*.lighthouse_deploy_key.pub
 
 # OS files
 Thumbs.db
