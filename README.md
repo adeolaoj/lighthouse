@@ -3,7 +3,7 @@
 ## Project Description
 
 Lighthouse is a full-stack app that centralizes Johns Hopkins research opportunities.
-It uses Convex + Next.js and Google authentication to let students browse and match with lab opportunities.
+It uses Convex + Next.js and Google authentication to let match students with lab opportunities. The data of research opportunities is found through a web-scraping workflow with AI integration.
 
 ## Prerequisites
 

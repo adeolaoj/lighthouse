@@ -5,15 +5,19 @@
   "scripts": {
     "dev": "convex dev",
     "deploy": "convex deploy",
-    "typecheck": "tsc --noEmit", 
-    "test": "vitest"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "seed": "tsx scripts/seed-from-sqlite.ts"
   },
   "dependencies": {
     "@auth/core": "^0.37.4",
     "@convex-dev/auth": "^0.0.91",
-    "convex": "^1.0.0"
+    "convex": "^1.32.0"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "better-sqlite3": "^12.6.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.0.0",
     "vitest": "^4.0.18"
   }

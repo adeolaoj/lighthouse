@@ -5,6 +5,9 @@ import Link from 'next/link'
 import GoogleSignupButton from '@/components/login/googleSignupBtn'
 import Button from '@/components/ui/btn'
 import { useRouter } from 'next/navigation'
+import { useAuthActions } from '@convex-dev/auth/react'
+import {useQuery} from 'convex/react'
+import { api } from "@convex/_generated/api";
 
 type Strength = 0 | 1 | 2 | 3 | 4
 
@@ -22,15 +25,50 @@ export default function SignupCard() {
   const [pw2, setPw2] = useState('')
   const [showPw1, setShowPw1] = useState(false)
   const [showPw2, setShowPw2] = useState(false)
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const[isLoading, setIsLoading] = useState(false)
+  const trimmedEmail = email.trim()
+  const trimmedFirst = firstName.trim()
+  const trimmedLast  = lastName.trim()
+  const exists = useQuery(api.users.emailExists, { email })
 
   const strength = useMemo(() => computeStrength(pw1), [pw1])
   const strengthClass = strength <= 1 ? 'weak' : strength <= 2 ? 'medium' : 'strong'
 
   const router = useRouter()
 
-  const handleClick = () => {
-    router.push('/results')
+  const [error, setError] = useState('')
+  const { signIn } = useAuthActions()
 
+  const handleClick = async () => {
+    setError('')
+
+    if (!trimmedFirst || !trimmedLast || !trimmedEmail || !pw1 || !pw2) {
+      setError('Please fill in all fields.')
+      return
+    }
+
+    if (pw1 !== pw2) {
+      setError('Passwords do not match')
+      return
+    }
+
+    if (exists === undefined || exists) {
+      setError('An account with this email already exists. Please sign in instead.')
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      await signIn('password', { email: trimmedEmail, password: pw1, name: trimmedFirst + ' ' + trimmedLast, flow: 'signUp' })
+      router.push('/results')
+    } catch {
+      setError('Sign up failed. Please try again.')
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -40,14 +78,28 @@ export default function SignupCard() {
         <div className="field">
           <label className="field-label">First Name</label>
           <div className="field-wrap">
-            <input className="field-input" type="text" placeholder="Jane" autoComplete="given-name" />
+            <input
+              className="field-input"                                                                                                                          
+              type="text"   
+              placeholder="Jane"                                                                                                                               
+              autoComplete="given-name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
           </div>
         </div>
 
         <div className="field">
           <label className="field-label">Last Name</label>
           <div className="field-wrap">
-            <input className="field-input" type="text" placeholder="Smith" autoComplete="family-name" />
+            <input
+              className="field-input"
+              type="text"
+              placeholder="Smith"
+              autoComplete="family-name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+          />
           </div>
         </div>
       </div>
@@ -56,7 +108,14 @@ export default function SignupCard() {
       <div className="field">
         <label className="field-label">Email</label>
         <div className="field-wrap">
-          <input className="field-input" type="email" placeholder="you@email.edu" autoComplete="email" />
+          <input
+            className="field-input"
+            type="email"
+            placeholder="you@email.edu"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
       </div>
 
@@ -132,7 +191,8 @@ export default function SignupCard() {
         </div>
       </div>
 
-    <Button onClick={handleClick} > Sign up </Button>
+    {error && <p className="text-sm text-red-400">{error}</p>}
+    <Button onClick={handleClick} disabled={isLoading}> {isLoading ? 'Signing up...' : 'Sign up'} </Button>
 
         <div className="divider">
             <div className="line" />

@@ -45,6 +45,7 @@ export function OpportunityCard({
       {/* Accent bar */}
       <div
         data-testid="accent-bar"
+
         className="h-[2px] opacity-75"
         style={{ background: color }}
       />
@@ -55,14 +56,13 @@ export function OpportunityCard({
         <div className="flex items-start gap-3 mb-[10px]">
           <div className="flex-1 min-w-0">
             <h3 className="text-[14px] font-semibold text-white m-0 mb-[3px] leading-[1.3] tracking-[-0.1px]">
-              {labName ?? "Not Specified"}
+              {labName ?? ""}
             </h3>
-            {/* Display head faculty and research focus, or "Not Specified" if missing */}
             <p className="text-[12px] font-normal m-0 text-purple-200/50">
-              {headFaculty} &bull; {researchFocus ?? "Not Specified"}
+              {headFaculty} &bull; {researchFocus ?? ""}
             </p>
             <p className="text-[12px] font-normal m-0 text-purple-200/50">
-              {researchPositionTitle ?? "Not Specified"}
+              {researchPositionTitle ?? ""}
             </p>
           </div>
 

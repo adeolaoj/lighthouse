@@ -1,4 +1,5 @@
 import { mutation, query } from "./_generated/server";
+import {v} from 'convex/values'
 
 export const getMe = query({
   args: {},
@@ -61,3 +62,14 @@ export const syncMe = mutation({
     return existing._id;
   },
 });
+
+export const emailExists = query({
+  args: {email: v.string() },
+  handler: async (ctx, { email }) => {
+    const user = await ctx.db
+      .query('users')
+      .filter((q) => q.eq(q.field('email'), email))
+      .first()
+    return user != null
+  },
+})

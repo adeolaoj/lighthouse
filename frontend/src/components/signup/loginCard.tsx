@@ -1,34 +1,44 @@
 'use client'
 
-import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import GoogleSignupButton from '@/components/signup/googleLoginButton'
 import Button from '@/components/ui/btn'
 import { useRouter } from 'next/navigation'
+import { useAuthActions } from '@convex-dev/auth/react'
+import { useState } from 'react'
 
-type Strength = 0 | 1 | 2 | 3 | 4
 
-function computeStrength(pw: string): Strength {
-  let score = 0
-  if (pw.length >= 8) score++
-  if (/[A-Z]/.test(pw)) score++
-  if (/[0-9]/.test(pw)) score++
-  if (/[^A-Za-z0-9]/.test(pw)) score++
-  return score as Strength
-}
 
 export default function LoginCard() {
   const [pw1, setPw1] = useState('')
   const [showPw1, setShowPw1] = useState(false)
-
-  const strength = useMemo(() => computeStrength(pw1), [pw1])
-  const strengthClass = strength <= 1 ? 'weak' : strength <= 2 ? 'medium' : 'strong'
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const { signIn } = useAuthActions()
 
   const router = useRouter()
 
-  const handleClick = () => {
-    router.push('/results')
+  const handleClick = async () => {
+    setError('')
 
+    const trimmedEmail = email.trim()
+
+    if (!trimmedEmail || !pw1) {
+      setError('Please fill in all fields.')
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      await signIn('password', { email: trimmedEmail, password: pw1, flow: 'signIn' })
+      router.push('/results')
+    } catch {
+      setError('Sign in failed. Please check your email and password.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -37,7 +47,14 @@ export default function LoginCard() {
       <div className="field">
         <label className="field-label">Email</label>
         <div className="field-wrap">
-          <input className="field-input" type="email" placeholder="you@email.edu" autoComplete="email" />
+          <input
+            className="field-input"
+            type="email"
+            placeholder="you@email.edu"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
       </div>
 
@@ -48,7 +65,7 @@ export default function LoginCard() {
           <input
             className="field-input has-toggle"
             type={showPw1 ? 'text' : 'password'}
-            placeholder="Min. 8 characters"
+            placeholder="Enter password"
             autoComplete="new-password"
             value={pw1}
             onChange={(e) => setPw1(e.target.value)}
@@ -70,18 +87,10 @@ export default function LoginCard() {
             </svg>
           </button>
         </div>
-
-        <div className="pw-strength" aria-hidden="true">
-          {[0, 1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className={`pw-bar ${strength > i ? strengthClass : ''}`}
-            />
-          ))}
-        </div>
       </div>
 
-      <Button onClick={handleClick} > Sign in </Button>
+      {error && <p className="text-sm text-red-400">{error}</p>}
+      <Button onClick={handleClick} disabled={isLoading}>{isLoading ? 'Signing in...' : 'Sign in'}</Button>
 
         <div className="divider">
             <div className="line" />
@@ -92,7 +101,7 @@ export default function LoginCard() {
       <GoogleSignupButton />
 
       <p className="signin-text">
-        Don`&apos;`t have an account? <Link href="/login">Create one</Link>
+        Don&apos;t have an account? <Link href="/login">Create one</Link>
       </p>
     </section>
   )

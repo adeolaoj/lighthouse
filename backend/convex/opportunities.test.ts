@@ -5,10 +5,11 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 let capturedHandler: (ctx: unknown, args: unknown) => Promise<unknown>;
 
 vi.mock("./_generated/server", () => ({
-  query: vi.fn((config: { handler: typeof capturedHandler }) => {
+query: vi.fn((config: { handler: typeof capturedHandler }) => {
     capturedHandler = config.handler;
     return config;
   }),
+  mutation: vi.fn((config: unknown) => config),
 }));
 
 await import("./opportunities");

@@ -103,17 +103,5 @@ describe("ResultsPage", () => {
     expect(() => render(<ResultsPage />)).not.toThrow();
   });
 
-  it('shows "Not Specified" for each missing optional field on opp-2', () => {
-    mockUseQuery.mockReturnValue(mockOpportunities);
-    render(<ResultsPage />);
-
-    // opp-2 has researchPositionTitle: null → renders "Not Specified" exactly (1 match)
-    // opp-2 has researchFocus: null → embedded as "Dr. Bob • Not Specified" (not an exact match)
-    // opp-1 has all fields present, contributing 0 exact "Not Specified" matches
-    expect(screen.getAllByText("Not Specified")).toHaveLength(1);
-
-    // opp-2's researchFocus fallback is embedded in the subtitle
-    expect(screen.getByText(/Dr\. Bob/)).toHaveTextContent("Not Specified");
-  });
 
 });

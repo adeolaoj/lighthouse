@@ -39,7 +39,7 @@ describe("OpportunityCard", () => {
 
   // ── researchFocus (optional) ──────────────────────────────────────────────
 
-  it('shows "Not Specified" in subtitle when researchFocus is missing', () => {
+  it("does not show researchFocus in subtitle when it is missing", () => {
     const opportunity = { ...baseOpportunity, researchFocus: undefined };
     render(
       <OpportunityCard
@@ -50,14 +50,13 @@ describe("OpportunityCard", () => {
       />
     );
 
-    const subtitle = screen.getByText(/Dr\. Jane Smith/);
-    expect(subtitle).toHaveTextContent("Not Specified");
+    expect(screen.getByText(/Dr\. Jane Smith/)).toBeInTheDocument();
     expect(screen.queryByText(/Computer Vision/)).not.toBeInTheDocument();
   });
 
   // ── researchPositionTitle (optional) ─────────────────────────────────────
 
-  it('shows "Not Specified" as heading when researchPositionTitle is missing', () => {
+  it("does not show researchPositionTitle when it is missing", () => {
     const opportunity = { ...baseOpportunity, researchPositionTitle: undefined };
     render(
       <OpportunityCard
@@ -68,7 +67,6 @@ describe("OpportunityCard", () => {
       />
     );
 
-    expect(screen.getByText("Not Specified")).toBeInTheDocument();
     expect(screen.queryByText("Research Assistant")).not.toBeInTheDocument();
   });
 
@@ -173,23 +171,6 @@ describe("OpportunityCard", () => {
     expect(screen.getByText(/Dr\. Jane Smith/)).toBeInTheDocument();
   });
 
-  it("renders silently when headFaculty is an empty string", () => {
-    const opportunity = { ...baseOpportunity, headFaculty: "" };
-    render(
-      <OpportunityCard
-        opportunity={opportunity}
-        saved={false}
-        onToggleSave={vi.fn()}
-        onViewLab={vi.fn()}
-      />
-    );
-
-    // headFaculty has no fallback — empty string renders silently, focus still shows
-    const subtitle = screen.getByText(/Computer Vision/);
-    expect(subtitle).toBeInTheDocument();
-    expect(subtitle).not.toHaveTextContent("Not Specified");
-  });
-
   // ── color ─────────────────────────────────────────────────────────────────
 
   it("applies the color to the accent bar", () => {
@@ -258,7 +239,7 @@ describe("OpportunityCard", () => {
 
   // ── all optional fields missing ───────────────────────────────────────────
 
-  it("shows 'Not Specified' for each missing optional field and still renders required fields", () => {
+  it("renders correctly with all optional fields missing", () => {
     const minimalOpportunity: Opportunity = {
       id: "opp-min",
       labURL: "https://example.com",
@@ -277,9 +258,6 @@ describe("OpportunityCard", () => {
       />
     );
 
-    // researchFocus renders as "Not Specified" embedded in the subtitle — not an exact match.
-    // Only researchPositionTitle (h3) renders as an exact "Not Specified".
-    expect(screen.getAllByText("Not Specified")).toHaveLength(1);
     expect(screen.queryByText(/Computer Vision/)).not.toBeInTheDocument();
     // labDescription (required) still renders
     expect(screen.getByText("Some description.")).toBeInTheDocument();

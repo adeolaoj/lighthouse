@@ -15,7 +15,7 @@ export default function ResultsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
 
-  const opportunitiesData = useQuery(api.opportunities.get_opportunities, { limit: 10 });
+  const opportunitiesData = useQuery(api.opportunities.get_opportunities, { limit: 30});
 
   const loading = opportunitiesData === undefined;
   const isError = opportunitiesData instanceof Error;

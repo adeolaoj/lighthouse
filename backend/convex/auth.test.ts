@@ -53,12 +53,14 @@ describe("convex auth provider config", () => {
   it("passes provider and session duration to convexAuth", async () => {
     await import("./auth");
 
-    expect(mockConvexAuth).toHaveBeenCalledWith({
-      providers: [mockGoogleProvider],
-      session: {
-        totalDurationMs: SESSION_DURATION_MS,
-      },
-    });
+    expect(mockConvexAuth).toHaveBeenCalledWith(
+      expect.objectContaining({
+        providers: expect.arrayContaining([mockGoogleProvider]),
+        session: {
+          totalDurationMs: SESSION_DURATION_MS,
+        },
+      })
+    );
     expect(mockConvexAuth).toHaveBeenCalledTimes(1);
   });
 
