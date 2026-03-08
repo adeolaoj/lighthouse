@@ -24,8 +24,6 @@ export function OpportunityCard({
     labName,
     labDescription,
     headFaculty,
-    opportunityType,
-    researcherInformation,
     researchFocus,
     researchPositionTitle,
     color,
@@ -57,13 +55,10 @@ export function OpportunityCard({
         <div className="flex items-start gap-3 mb-[10px]">
           <div className="flex-1 min-w-0">
             <h3 className="text-[14px] font-semibold text-white m-0 mb-[3px] leading-[1.3] tracking-[-0.1px]">
-              {researchPositionTitle ?? "Not Specified"}
+              {labName ?? "Not Specified"}
             </h3>
             <p className="text-[12px] font-normal m-0 text-purple-200/50">
               {headFaculty} &bull; {researchFocus ?? "Not Specified"}
-            </p>
-            <p className="text-[12px] font-normal m-0 text-purple-200/50">
-              {researcherInformation ?? "Not Specified"}
             </p>
           </div>
 
