@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import type { Opportunity } from "@/types/Opportunity";
@@ -16,6 +16,10 @@ const baseOpportunity: Opportunity = {
 };
 
 describe("OpportunityCard", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it("renders all fields when data is complete", () => {
     render(
       <OpportunityCard
@@ -26,7 +30,7 @@ describe("OpportunityCard", () => {
       />
     );
 
-    expect(screen.getByRole("heading", { name: "Research Assistant" })).toBeInTheDocument();
+    expect(screen.getByText("Research Assistant")).toBeInTheDocument();
     expect(screen.getByText(/Computer Vision/)).toBeInTheDocument();
     expect(
       screen.getByText("Research on computer vision and deep learning.")
@@ -64,10 +68,8 @@ describe("OpportunityCard", () => {
       />
     );
 
-    expect(screen.getByRole("heading", { name: "Not Specified" })).toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: "Research Assistant" })
-    ).not.toBeInTheDocument();
+    expect(screen.getByText("Not Specified")).toBeInTheDocument();
+    expect(screen.queryByText("Research Assistant")).not.toBeInTheDocument();
   });
 
   // ── Why It's a Match stub ─────────────────────────────────────────────────

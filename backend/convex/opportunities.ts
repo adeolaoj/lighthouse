@@ -1,10 +1,14 @@
 import { query } from "./_generated/server";
 import type { QueryCtx } from "./_generated/server";
+import { v } from "convex/values";
 
 export const get_opportunities = query({
-  args: {},
-  handler: async (ctx: QueryCtx) => {
-    const opportunities = await ctx.db.query("opportunities").collect();
+  args: { limit: v.optional(v.number()) },
+  handler: async (ctx: QueryCtx, args) => {
+    const q = ctx.db.query("opportunities");
+    const opportunities = (args.limit !== undefined)
+      ? await q.take(args.limit)
+      : await q.collect();
 
     return opportunities.map((opportunity) => ({
       id: opportunity._id,
@@ -18,3 +22,4 @@ export const get_opportunities = query({
     }));
   },
 });
+
