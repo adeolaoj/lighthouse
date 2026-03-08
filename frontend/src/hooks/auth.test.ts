@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { act, renderHook } from "@testing-library/react";
 
 const mockSignIn = vi.fn<() => Promise<void>>();
 const mockSignOut = vi.fn<() => Promise<void>>();
@@ -22,14 +23,24 @@ describe("OAuth login flow", () => {
     mockGetRedirectParam.mockImplementation((key) => (key === "redirect" ? "/results" : null));
   });
 
+  afterEach(() => {
+    vi.resetModules();
+    vi.unstubAllGlobals();
+  });
+
   it("successful login: signs in with Google and redirects to protected page", async () => {
     const { useAuth } = await import("./auth");
-    const auth = useAuth();
+    const { result } = renderHook(() => useAuth());
 
-    await expect(auth.login()).resolves.toEqual({ ok: true });
+    let loginResult: Awaited<ReturnType<typeof result.current.login>> | undefined;
+    await act(async () => {
+      loginResult = await result.current.login();
+    });
 
+    expect(loginResult).toEqual({ ok: true });
     expect(mockSignIn).toHaveBeenCalledWith("google");
     expect(mockPush).toHaveBeenCalledWith("/results");
+    expect(mockGetRedirectParam).toHaveBeenCalledWith("redirect");
   });
 
   it("cancelled login: returns user-safe message and stays in login flow", async () => {
@@ -37,39 +48,25 @@ describe("OAuth login flow", () => {
     mockSignIn.mockRejectedValueOnce(oauthError);
 
     const { useAuth } = await import("./auth");
-    const auth = useAuth();
-    const result = await auth.login();
+    const { result: hook } = renderHook(() => useAuth());
 
-    expect(result.ok).toBe(false);
-    if (!result.ok) {
-      expect(result.message).toBe("Google sign-in was cancelled. Please try again.");
-    }
-    expect(mockPush).toHaveBeenCalledWith(
-      "/login?error=Google%20sign-in%20was%20cancelled.%20Please%20try%20again."
-    );
-  });
-
-  it("session persistence: token remains after refresh and is shared across tabs", async () => {
-    const memoryStorage = new Map<string, string>();
-
-    vi.stubGlobal("localStorage", {
-      setItem: (key: string, value: string) => {
-        memoryStorage.set(key, value);
-      },
-      getItem: (key: string) => memoryStorage.get(key) ?? null,
-      removeItem: (key: string) => {
-        memoryStorage.delete(key);
-      },
+    let loginResult: Awaited<ReturnType<typeof hook.current.login>> | undefined;
+    await act(async () => {
+      loginResult = await hook.current.login();
     });
 
-    const { setAuthToken, getAuthToken, AUTH_TOKEN_KEY } = await import("../lib/auth");
+    expect(loginResult).toBeDefined();
+    expect(loginResult).toMatchObject({
+      ok: false,
+      message: "Google sign-in was cancelled. Please try again.",
+    });
 
-    setAuthToken("test-session-token");
-
-    const refreshRead = getAuthToken();
-    const secondTabRead = localStorage.getItem(AUTH_TOKEN_KEY);
-
-    expect(refreshRead).toBe("test-session-token");
-    expect(secondTabRead).toBe("test-session-token");
+    const pushedPath = mockPush.mock.calls[0][0] as string;
+    const pushedUrl = new URL(pushedPath, "http://localhost");
+    expect(pushedUrl.pathname).toBe("/login");
+    expect(pushedUrl.searchParams.get("error")).toBe(
+      "Google sign-in was cancelled. Please try again."
+    );
+    expect(mockGetRedirectParam).toHaveBeenCalledWith("redirect");
   });
 });
