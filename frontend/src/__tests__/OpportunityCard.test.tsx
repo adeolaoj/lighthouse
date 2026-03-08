@@ -9,8 +9,6 @@ const baseOpportunity: Opportunity = {
   labName: "Vision & Learning Lab",
   labDescription: "Research on computer vision and deep learning.",
   headFaculty: "Dr. Jane Smith",
-  opportunityType: "Research Assistant",
-  researcherInformation: "looking-for-students@jhu.edu",
   researchFocus: "Computer Vision",
   researchPositionTitle: "Research Assistant",
   postedAt: 1700000000000,
@@ -33,7 +31,6 @@ describe("OpportunityCard", () => {
     expect(
       screen.getByText("Research on computer vision and deep learning.")
     ).toBeInTheDocument();
-    expect(screen.getByText("looking-for-students@jhu.edu")).toBeInTheDocument();
   });
 
   // ── researchFocus (optional) ──────────────────────────────────────────────
@@ -70,27 +67,6 @@ describe("OpportunityCard", () => {
     expect(screen.getByRole("heading", { name: "Not Specified" })).toBeInTheDocument();
     expect(
       screen.queryByRole("heading", { name: "Research Assistant" })
-    ).not.toBeInTheDocument();
-  });
-
-  // ── researcherInformation (optional) ─────────────────────────────────────
-
-  it('shows "Not Specified" for PI email when researcherInformation is missing', () => {
-    const opportunity = { ...baseOpportunity, researcherInformation: undefined };
-    render(
-      <OpportunityCard
-        opportunity={opportunity}
-        saved={false}
-        onToggleSave={vi.fn()}
-        onViewLab={vi.fn()}
-      />
-    );
-
-    // researchPositionTitle and researchFocus are both present, so the only
-    // standalone "Not Specified" is the PI email line
-    expect(screen.getByText("Not Specified")).toBeInTheDocument();
-    expect(
-      screen.queryByText("looking-for-students@jhu.edu")
     ).not.toBeInTheDocument();
   });
 
@@ -249,27 +225,6 @@ describe("OpportunityCard", () => {
     );
   });
 
-  // ── opportunityType (optional) ────────────────────────────────────────────
-
-  it("renders all visible fields correctly when opportunityType is missing", () => {
-    const opportunity = { ...baseOpportunity, opportunityType: undefined };
-    render(
-      <OpportunityCard
-        opportunity={opportunity}
-        saved={false}
-        onToggleSave={vi.fn()}
-        onViewLab={vi.fn()}
-      />
-    );
-
-    // opportunityType is not displayed — all other fields should render normally
-    expect(screen.getByRole("heading", { name: "Research Assistant" })).toBeInTheDocument();
-    expect(
-      screen.getByText("Research on computer vision and deep learning.")
-    ).toBeInTheDocument();
-    expect(screen.getByText(/Dr\. Jane Smith/)).toBeInTheDocument();
-  });
-
   // ── animationDelay prop ───────────────────────────────────────────────────
 
   it("applies the animationDelay as an inline style", () => {
@@ -320,10 +275,9 @@ describe("OpportunityCard", () => {
       />
     );
 
-    // researchPositionTitle (h3) and researcherInformation (p) both show "Not Specified" exactly.
-    // researchFocus is also missing but renders as "Not Specified" inside the subtitle <p>,
-    // which doesn't match the exact string — so the count is 2, not 3.
-    expect(screen.getAllByText("Not Specified")).toHaveLength(2);
+    // researchFocus renders as "Not Specified" embedded in the subtitle — not an exact match.
+    // Only researchPositionTitle (h3) renders as an exact "Not Specified".
+    expect(screen.getAllByText("Not Specified")).toHaveLength(1);
     expect(screen.queryByText(/Computer Vision/)).not.toBeInTheDocument();
     // labDescription (required) still renders
     expect(screen.getByText("Some description.")).toBeInTheDocument();

@@ -26,8 +26,6 @@ export default function ResultsPage() {
     labName: opportunity.labName,
     labDescription: opportunity.labDescription,
     headFaculty: opportunity.headFaculty ?? "",
-    opportunityType: opportunity.opportunityType,
-    researcherInformation: opportunity.researcherInformation,
     researchFocus: opportunity.researchFocus,
     researchPositionTitle: opportunity.researchPositionTitle,
     postedAt: opportunity.postedAt,
