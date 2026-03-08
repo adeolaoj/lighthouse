@@ -3,6 +3,7 @@ import { defineSchema, defineTable } from 'convex/server'
 import { authTables } from "@convex-dev/auth/server";
 import { v } from 'convex/values'
 
+// This file defines the Convex schema for the application.
 
 export default defineSchema({
   userProfiles: defineTable({
@@ -18,8 +19,6 @@ export default defineSchema({
     labName: v.string(),
     labDescription: v.string(),
     headFaculty: v.string(),
-    opportunityType: v.optional(v.string()),
-    researcherInformation: v.optional(v.string()),
     researchFocus: v.optional(v.string()),
     researchPositionTitle: v.optional(v.string()) 
   }),

@@ -4,8 +4,6 @@ export type Opportunity = {
   labName: string;
   labDescription: string;
   headFaculty: string;
-  opportunityType?: string;
-  researcherInformation?: string;
   researchFocus?: string;
   researchPositionTitle?: string;
   postedAt: number;

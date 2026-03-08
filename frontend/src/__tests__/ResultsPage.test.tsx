@@ -36,8 +36,6 @@ const mockOpportunities = [
     labName: "AI Lab",
     labDescription: "Artificial intelligence research.",
     headFaculty: "Dr. Alice",
-    opportunityType: "Research Assistant",
-    researcherInformation: "dr.alice@jhu.edu",
     researchFocus: "Machine Learning",
     researchPositionTitle: "ML Research Assistant",
     postedAt: 1700000000000,
@@ -48,8 +46,6 @@ const mockOpportunities = [
     labName: "Robotics Lab",
     labDescription: "Robotics and automation research.",
     headFaculty: "Dr. Bob",
-    opportunityType: "Research Assistant",
-    researcherInformation: null,
     researchFocus: null,
     researchPositionTitle: null,
     postedAt: 1700000001000,
@@ -105,17 +101,14 @@ describe("ResultsPage", () => {
     render(<ResultsPage />);
 
     // opp-2 has researchPositionTitle: null → h3 shows "Not Specified" exactly
-    // opp-2 has researcherInformation: null → email <p> shows "Not Specified" exactly
     // opp-2 has researchFocus: null → embedded as "Dr. Bob • Not Specified" (not exact match)
     // opp-1 has all fields present, contributing 0 exact "Not Specified" matches
-    expect(screen.getAllByText("Not Specified")).toHaveLength(2);
+    expect(screen.getAllByText("Not Specified")).toHaveLength(1);
 
     // The lab name should not appear as a card title (old fallback behavior is gone)
     expect(
       screen.queryByRole("heading", { name: "Robotics Lab" })
     ).not.toBeInTheDocument();
-    // The real email for opp-1 should still render correctly
-    expect(screen.getByText("dr.alice@jhu.edu")).toBeInTheDocument();
   });
 
 });
