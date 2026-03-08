@@ -19,8 +19,8 @@ export default function SignupPage() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const { isAuthenticated, isLoading } = useConvexAuth()
-    const isOauthAttempt = searchParams.get('oauth') === 'google'
-    const oauthErrorMessage = getOauthErrorMessage(searchParams.get('error'))
+    const isOauthAttempt = searchParams?.get('oauth') === 'google'
+    const oauthErrorMessage = getOauthErrorMessage(searchParams?.get('error') ?? null)
 
     useEffect(() => {
       if (!isLoading && isAuthenticated && isOauthAttempt && !oauthErrorMessage) {
