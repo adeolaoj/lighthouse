@@ -9,20 +9,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # TODO: Set up Node.js
-      # - uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-      # TODO: Install dependencies
-      # - run: npm install
+      - name: Install dependencies
+        run: npm ci
 
-      # TODO: Build for production
-      # - run: npm run build
+      - name: Build for production
+        run: npm run build
+        env:
+          NEXT_PUBLIC_CONVEX_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
 
-      # TODO: Deploy to your hosting platform
-      # Example:
-      # - uses: amondnet/vercel-action@v25
-      #   with:
-      #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
+      - name: Mirror to deploy repo
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git remote add mirror git@github.com:adeolaoj/lighthouse.git
+          git push mirror master --force
