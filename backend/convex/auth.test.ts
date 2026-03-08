@@ -1,4 +1,6 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const SESSION_DURATION_MS = 30 * 60 * 1000;
 
 const mockConvexAuthReturn = {
   auth: { addHttpRoutes: vi.fn() },
@@ -21,6 +23,11 @@ vi.mock("@auth/core/providers/google", () => ({
 }));
 
 describe("convex auth provider config", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.resetModules();
+  });
+
   it("configures Google with select_account prompt", async () => {
     await import("./auth");
 
@@ -39,7 +46,7 @@ describe("convex auth provider config", () => {
     expect(mockConvexAuth).toHaveBeenCalledWith({
       providers: [mockGoogleProvider],
       session: {
-        totalDurationMs: 60 * 1000 * 30,
+        totalDurationMs: SESSION_DURATION_MS,
       },
     });
   });
