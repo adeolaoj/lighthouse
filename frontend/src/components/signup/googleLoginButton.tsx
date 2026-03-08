@@ -1,66 +1,23 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useToken } from 'src/app/providers'
-
-declare global {
-  interface Window {
-    google?: any
-  }
-}
+import { useAuthActions } from '@convex-dev/auth/react'
 
 export default function GoogleLoginButton() {
-  const router = useRouter()
-  const { setToken } = useToken()
-  const [ready, setReady] = useState(false)
+  const { signIn, signOut } = useAuthActions()
 
-  useEffect(() => {
-    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
-
-    if (!clientId) {
-      console.error('Missing NEXT_PUBLIC_GOOGLE_CLIENT_ID')
-      return
+  const handleClick = async () => {
+    try {
+      await signOut()
+    } catch {
+      // Ignore sign-out errors and continue with OAuth.
     }
-
-    // Wait for the GSI script to exist (prevents teammate “works on my machine” issues)
-    const timer = setInterval(() => {
-      if (window.google?.accounts?.id) {
-        clearInterval(timer)
-
-        window.google.accounts.id.initialize({
-          client_id: clientId,
-          callback: (response: { credential?: string }) => {
-            if (response.credential) {
-              setToken(response.credential)
-              router.push('/results')
-            } else {
-              console.error('No credential returned from Google')
-            }
-          },
-        })
-
-        setReady(true)
-      }
-    }, 50)
-
-    return () => clearInterval(timer)
-  }, [router, setToken])
-
-  const handleGoogle = () => {
-    if (!window.google?.accounts?.id) {
-      console.error('Google script not loaded yet')
-      return
-    }
-
-    window.google.accounts.id.prompt()
+    await signIn('google', { redirectTo: '/results' })
   }
 
   return (
-    <button className="google-btn" type="button" onClick={handleGoogle} disabled={!ready}>
+    <button className="google-btn" type="button" onClick={handleClick}>
       <img className="google-icon" src="/web_neutral_rd_na.svg" alt="Google logo" />
-      <span>{ready ? 'Sign in with Google' : 'Loading…'}</span>
+      <span>Sign in with Google</span>
     </button>
   )
 }
-
