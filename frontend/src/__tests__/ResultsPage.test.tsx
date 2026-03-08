@@ -29,6 +29,8 @@ const mockUseQuery = vi.mocked(useQuery);
 
 // Note: `color` is intentionally absent — the page assigns it from CARD_COLORS
 // during the .map(), so the raw API objects don't include it.
+// Note: `id` (not `_id`) is correct here — these mocks represent data already
+// returned by the get_opportunities handler, which remaps _id → id.
 const mockOpportunities = [
   {
     id: "opp-1",
@@ -46,8 +48,8 @@ const mockOpportunities = [
     labName: "Robotics Lab",
     labDescription: "Robotics and automation research.",
     headFaculty: "Dr. Bob",
-    researchFocus: null,
-    researchPositionTitle: null,
+    researchFocus: undefined,
+    researchPositionTitle: undefined,
     postedAt: 1700000001000,
   },
 ];
@@ -88,27 +90,30 @@ describe("ResultsPage", () => {
     expect(screen.getAllByRole("button", { name: /view lab/i })).toHaveLength(2);
   });
 
-  it("shows the page heading in all states", () => {
-    // Verify the heading is present when data is loaded, not just in the empty state
+  // The heading is outside all conditional blocks, so it renders in every non-loading state.
+  it("shows the page heading when data is loaded", () => {
     mockUseQuery.mockReturnValue(mockOpportunities);
     render(<ResultsPage />);
 
     expect(screen.getByText("Opportunities for You")).toBeInTheDocument();
   });
 
+  it("does not crash when useQuery returns an error", () => {
+    mockUseQuery.mockReturnValue(new Error("fetch failed"));
+    expect(() => render(<ResultsPage />)).not.toThrow();
+  });
+
   it('shows "Not Specified" for each missing optional field on opp-2', () => {
     mockUseQuery.mockReturnValue(mockOpportunities);
     render(<ResultsPage />);
 
-    // opp-2 has researchPositionTitle: null → h3 shows "Not Specified" exactly
-    // opp-2 has researchFocus: null → embedded as "Dr. Bob • Not Specified" (not exact match)
+    // opp-2 has researchPositionTitle: null → renders "Not Specified" exactly (1 match)
+    // opp-2 has researchFocus: null → embedded as "Dr. Bob • Not Specified" (not an exact match)
     // opp-1 has all fields present, contributing 0 exact "Not Specified" matches
     expect(screen.getAllByText("Not Specified")).toHaveLength(1);
 
-    // The lab name should not appear as a card title (old fallback behavior is gone)
-    expect(
-      screen.queryByRole("heading", { name: "Robotics Lab" })
-    ).not.toBeInTheDocument();
+    // opp-2's researchFocus fallback is embedded in the subtitle
+    expect(screen.getByText(/Dr\. Bob/)).toHaveTextContent("Not Specified");
   });
 
 });

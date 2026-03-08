@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockRedirect = vi.fn((request: { nextUrl: { pathname: string } }, path: string) => ({
   redirect: path,
@@ -10,18 +10,35 @@ type MiddlewareUnderTest = (
   context: { convexAuth: { isAuthenticated: () => Promise<boolean> } }
 ) => Promise<unknown>;
 
+const createRouteMatcherMock = vi.fn((patterns: string[]) => {
+  return (request: { nextUrl: { pathname: string } }) =>
+    patterns.some((pattern) => {
+      const basePattern = pattern
+        .replace(/\(\.\*\)$/, "")
+        .replace(/\/:.*$/, "")
+        .replace(/\*$/, "");
+      return request.nextUrl.pathname.startsWith(basePattern);
+    });
+});
+
 vi.mock("@convex-dev/auth/nextjs/server", () => ({
   convexAuthNextjsMiddleware: (handler: unknown) => handler,
-  createRouteMatcher:
-    (patterns: string[]) =>
-    (request: { nextUrl: { pathname: string } }) =>
-      patterns.some((pattern) => pattern.startsWith("/results") && request.nextUrl.pathname.startsWith("/results")),
+  createRouteMatcher: createRouteMatcherMock,
   nextjsMiddlewareRedirect: mockRedirect,
 }));
 
 describe("Unauthorized route access", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.resetModules();
+  });
+
+  it("initializes route matcher once at module load", async () => {
+    await import("./middleware");
+    expect(createRouteMatcherMock).toHaveBeenCalledTimes(1);
   });
 
   it("redirects unauthenticated users from protected routes to /login", async () => {
@@ -54,6 +71,18 @@ describe("Unauthorized route access", () => {
     const result = await middleware(
       { nextUrl: { pathname: "/login" } },
       { convexAuth: { isAuthenticated: async () => false } }
+    );
+
+    expect(mockRedirect).not.toHaveBeenCalled();
+    expect(result).toBeUndefined();
+  });
+
+  it("does not redirect authenticated users on /login", async () => {
+    const middleware = (await import("./middleware")).default as unknown as MiddlewareUnderTest;
+
+    const result = await middleware(
+      { nextUrl: { pathname: "/login" } },
+      { convexAuth: { isAuthenticated: async () => true } }
     );
 
     expect(mockRedirect).not.toHaveBeenCalled();

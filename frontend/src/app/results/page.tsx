@@ -15,12 +15,13 @@ export default function ResultsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
 
-  const opportunitiesData = useQuery(api.opportunities.get_opportunities);
+  const opportunitiesData = useQuery(api.opportunities.get_opportunities, { limit: 10 });
 
   const loading = opportunitiesData === undefined;
-  const isEmpty = !loading && opportunitiesData.length === 0;
+  const isError = opportunitiesData instanceof Error;
+  const isEmpty = !loading && !isError && opportunitiesData.length === 0;
 
-  const opportunities: Opportunity[] = (opportunitiesData ?? []).map((opportunity, i) => ({
+  const opportunities: Opportunity[] = (isError || !opportunitiesData ? [] : opportunitiesData).map((opportunity, i) => ({
     id: opportunity.id,
     labURL: opportunity.labURL,
     labName: opportunity.labName,
@@ -45,6 +46,7 @@ export default function ResultsPage() {
   }
 
   function handleViewLab(opportunity: Opportunity) {
+    // TODO: add test coverage once real navigation is wired up
     // Temporary: just log the opportunity for now
     // Will eventually take users to the lab's page
     console.log("View lab for opportunity:", opportunity);
@@ -63,6 +65,13 @@ export default function ResultsPage() {
           {loading && (
             <div className="rounded-2xl border border-white/10 px-5 py-4 text-white/85">
               Loading opportunities...
+            </div>
+          )}
+
+          {/* Error State */}
+          {isError && (
+            <div className="rounded-2xl border border-white/10 px-5 py-4 text-white/85">
+              Something went wrong loading opportunities. Please try again later.
             </div>
           )}
 
