@@ -8,8 +8,9 @@
 * Users can log in via Google OAuth.   
 * Users can upload and update their personal profiles (such as resumes, courses taken, and research focus preferences).  
   * Users can manually enter relevant courses; resumes will be uploaded as a PDF, and relevant information will be extracted using an LLM  
-* The system will conduct a semantic search by web scraping through Hopkins’ official Computer Science department websites for Computer Science and LCSR department websites for Robotics research opportunities, storing them in a database.   
-* The system maintains up-to-date information about Hopkins' research opportunities.  
+* The system uses an agentic web scraping workflow powered by Playwright to crawl Hopkins’ official Computer Science and LCSR department websites for research opportunities. Given a starting URL, the agent autonomously decides which internal links to follow and which paths to skip based on their relevance to research opportunities.
+* Scraped opportunity data is stored directly in Convex.
+* The system maintains up-to-date information about Hopkins’ research opportunities via a periodic re-scrape that removes stale entries.  
 * Users can perform personalized searches for opportunities and use a chat interface to refine search results.  
 * The system can sort and list up to 10 opportunities, with explanations of why each opportunity matches, skill gap identification, and Hopkins course suggestions to increase compatibility.  
 * The system extracts features from a user’s resume, including projects, work experience, technical and soft skills, college grade level, and extracurricular activities. This information, along with user-specified interests and saved preferences, is used to match users to research opportunities.  
@@ -63,6 +64,6 @@
 * **Backend:** Typescript, Convex, Vercel AI SDK  
 * **Auth:** Google OAuth 2.0  
 * **AI Services:** OpenAI API, Claude API  
-* **External:** Puppeteer with Chrome MCP (Puppeteer-based MCP server for browser automation and debugging)  
+* **External:** Playwright (browser automation and content extraction for web scraping); LlamaIndex (agentic link selection, chunking, embedding, and resume PDF parsing)
 * **Deployment:** Vercel or AWS  
 * **Testing:** Vitest 
