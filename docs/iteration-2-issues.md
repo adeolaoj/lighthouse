@@ -312,16 +312,39 @@ After login, check the authenticated user's `profileComplete` flag on their Conv
 
 #### Description
 
-Build the onboarding screen that new users see after first login. The screen must support resume (PDF) upload, optional course input, optional research preference input, and a review/edit step before saving.
+Build the onboarding screen that new users see after first login. The screen must support a "Select Interests" step (CS research domains), resume (PDF) upload, optional course input, optional research preference input, and a review/edit step before saving.
 
 #### Acceptance Criteria
 
 - [ ] Onboarding screen is accessible at `/onboard` for authenticated new users
+- [ ] Onboarding screen includes a "Select Interests" step where users can select up to four CS research domains
 - [ ] User can upload a resume PDF; the file is accepted and passed to the extraction pipeline
 - [ ] User can optionally enter courses taken and research focus preferences
 - [ ] Extracted profile data is shown to the user for review and manual correction before saving
-- [ ] User can skip optional fields and proceed
+- [ ] User can skip optional fields (resume, courses, preferences, interests) and proceed
 - [ ] The screen renders correctly on both desktop and mobile browsers
+
+---
+
+### Issue: Implement Select Interests Step in Onboarding
+
+**Label:** `task`
+**Milestone:** Iteration 2
+
+---
+
+#### Description
+
+Add a "Select Interests" step to the onboarding flow where users can choose up to four CS research domains. The selected interests are saved to the user's Convex record and used as the fallback ranking signal on the results page when no resume has been uploaded.
+
+#### Acceptance Criteria
+
+- [ ] The onboarding screen includes a step presenting a defined list of CS research domains for the user to select from
+- [ ] Users can select a maximum of four domains; selecting a fifth should be prevented with clear UI feedback
+- [ ] Selected interests are saved to the `csInterests` field on the Convex `users` table
+- [ ] Users can skip this step and leave interests empty
+- [ ] Selected interests can be updated later from the profile screen
+- [ ] The interests selection UI renders correctly on both desktop and mobile browsers
 
 ---
 
@@ -487,28 +510,30 @@ Build a Convex query that returns opportunities ranked for the authenticated use
 
 - [ ] Query accepts the authenticated user's ID and returns opportunities in ranked order
 - [ ] Query is only callable by authenticated users
-- [ ] Query returns unranked opportunities (with a flag) when no resume embeddings exist for the user
+- [ ] Query returns interest-filtered/ranked opportunities (with a flag) when no resume embeddings exist but the user has selected CS interests
+- [ ] Query returns unranked opportunities (with a flag) when neither resume embeddings nor interests exist for the user
 - [ ] Query response time is within acceptable limits for the results page load target (≤ 3 seconds for cached data)
 
 ---
 
-### Issue: Update Results Page to Display Ranked Opportunities
+### Issue: Update Results Page to Display Ranked Opportunities with Interest and Unranked Fallbacks
 
-**Label:** `feature`
+**Label:** `task`
 **Milestone:** Iteration 2
 
 ---
 
 #### Description
 
-Update the results page to use the ranked opportunities query when a user profile with resume embeddings exists. Show an unranked fallback with a prompt to complete the profile when no resume has been uploaded.
+Update the results page to support three display modes based on the user's profile completeness: (1) ranked by resume match when a resume is uploaded, (2) filtered/ranked by selected CS interests when no resume is present, (3) fully unranked when neither resume nor interests are provided.
 
 #### Acceptance Criteria
 
-- [ ] Results page shows ranked opportunities for users with resume embeddings
-- [ ] Results page shows unranked opportunities for users without a resume, alongside a prompt to complete their profile
-- [ ] The match category (strong / moderate / weak) is visible on each opportunity card
-- [ ] Page transitions between ranked and unranked states correctly when a resume is added
+- [ ] Results page shows ranked opportunities (strong / moderate / weak) for users with resume embeddings
+- [ ] Results page filters/ranks by selected CS interests for users who have no resume but have chosen domains of interest
+- [ ] Results page shows all opportunities in unranked order for users with neither a resume nor selected interests, alongside a prompt to complete their profile
+- [ ] The match category (strong / moderate / weak) is visible on each opportunity card when ranked by resume
+- [ ] Page transitions between all three states correctly as the user updates their profile
 
 ---
 

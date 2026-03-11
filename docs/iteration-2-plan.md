@@ -11,14 +11,14 @@
 - **Acceptance Criteria:**
   - [ ] The Puppeteer dependency is removed and replaced with Playwright.
   - [ ] Given a starting URL, the playwright (at depths 0 and 1) crawls internal links and decides which paths are relevant to research opportunities without a manually maintained allowlist or blocklist.
-  - [ ] At URL depth 2, the agent (using LlamaIndex calling OpenAI's functions on model gpt-4o-mini) filters URLs that are related to research opportunities, and does not crawl irrelevant paths (e.g., news archives, calendars, administrative pages) — skipping decisions are logged so they can be reviewed.
+  - [ ] At URL depth 2, the agent (using LlamaIndex calling OpenAI's functions on model gpt-4o-mini) filters URLs that are related to research opportunities, and does not crawl irrelevant paths (e.g., news archives, calendars, administrative pages) — skipping decisions are logged by LlamaIndex so they can be reviewed.
   - [ ] Evaluator agent that evaluates the quality of the web-scraped data. If certain fields of the research lab are missing, the evaluator can trigger another web-crawl seeding from the lab URL, a max number of evaluation loops will be set to prevent infinite loops.
   - [ ] Clean scraped opportunity data is written directly to Convex, with no intermediate SQLite storage.
   - [ ] Upsert logic prevents duplicate entries: re-running the scraper on the same URL updates existing records rather than creating new ones.
   - [ ] If a page is unreachable (404, timeout, etc.), the pipeline logs the failure and continues without crashing.
   - [ ] A developer can manually trigger the scrape pipeline via a script or admin endpoint for testing.
   - [ ] Scraped data is queryable from Convex and renders correctly on the results page.
-  - [ ] Scraped data is embedded and vectorized in a vector database, enabling semantic vector search for later student resume matching.
+  - [ ] Scraped data is embedded and vectorized in Convex's vector store, enabling semantic vector search for later student resume matching.
 
 ---
 
@@ -28,7 +28,7 @@
 
 - **Acceptance Criteria:**
   - [ ] A scheduled job runs the scraping pipeline at a defined, agreed-upon interval (monthly).
-  - [ ] The scheduler can be verified as running via logs that capture: start time, pages visited, records added/updated, and any errors.
+  - [ ] The scheduler can be verified as running via LlamaIndex-managed logs that capture: start time, pages visited, records added/updated, and any errors.
   - [ ] After a scheduled run completes, newly added or changed opportunities are reflected on the results page on next load.
   - [ ] Opportunities from source pages that no longer exist are removed from Convex after a scheduled run.
   - [ ] The scheduled job does not block or degrade the user-facing application during execution.
@@ -41,9 +41,10 @@
 
 - **Acceptance Criteria:**
   - [ ] After first login, new users are redirected to an onboarding screen before reaching the results page.
+  - [ ] The onboarding screen includes a "Select Interests" step where users can select up to four CS research domains to personalize their results page.
   - [ ] The onboarding screen allows users to upload a resume (PDF) and optionally enter courses taken and research focus preferences.
   - [ ] Extracted profile data is displayed to the user for review and manual correction before being saved.
-  - [ ] Users can skip optional fields (courses, preferences) and complete them later from the profile screen.
+  - [ ] Users can skip optional fields (resume, courses, preferences, interests) and complete them later from the profile screen.
   - [ ] A personal profile screen is accessible post-onboarding where users can view and edit all stored profile fields.
   - [ ] Sensitive fields (home address, phone number, GPA) are not stored; the system redacts them before persistence.
   - [ ] Returning users who have already completed onboarding are not shown the onboarding screen again.
@@ -58,10 +59,11 @@
 
 - **Acceptance Criteria:**
   - [ ] The agent extracts the following fields from an uploaded PDF resume: projects, work experience, technical skills, soft skills, college grade level, and extracurricular activities.
-  - [ ] Extracted data is chunked and embedded into the system's long-term memory (Convex vector store).
+  - [ ] Extracted data is chunked and embedded into Convex's vector store.
   - [ ] The system uses extracted resume data and user preferences to categorize opportunities as strong, moderate, or weak matches.
   - [ ] Matched and sorted opportunities are returned to the results page in ranked order.
-  - [ ] If no resume has been uploaded, the results page falls back to displaying unranked opportunities with a prompt to complete the profile.
+  - [ ] If no resume has been uploaded but the user has selected CS domains of interest, the results page falls back to filtering/ranking opportunities by those selected interests.
+  - [ ] If neither a resume nor any interests have been provided, the results page falls back to displaying all opportunities in unranked order with a prompt to complete the profile.
   - [ ] The extraction and matching pipeline does not store sensitive personal information (address, phone, GPA).
 
 ---
@@ -106,7 +108,11 @@
 - **Storage:** All scraped data flows directly into Convex. The SQLite seed script (`backend/scripts/seed-from-sqlite.ts`) is deprecated and will be removed once the Playwright/LlamaIndex pipeline is verified end-to-end.
 - **Stale opportunity policy:** After each scheduled run, any opportunity whose `sourceUrl` was visited but produced no matching content is deleted from Convex. URLs that were unreachable (network errors) are not deleted — only those confirmed absent.
 - **Onboarding routing:** The frontend checks a `profileComplete` flag on the Convex user record. If `false` after login, the user is redirected to `/onboard`. This flag is set to `true` on first save.
-- **Convex schema additions:** Adding `users` table fields: `profileComplete` (boolean), `resumeEmbeddingId` (optional reference), `courses` (array of strings), `researchPreferences` (string). Any schema change must be documented in the PR description.
+- **Vector database:** Convex serves as the vector store for both scraped opportunity embeddings and resume chunk embeddings. No external vector database is used.
+- **AI logging:** LlamaIndex manages pipeline logging — link scoring decisions, skipped URLs, and scraping run summaries are all captured through LlamaIndex's logging layer.
+- **Select Interests:** During onboarding, users select up to four CS research domains. These interests are stored on the user record and used as the fallback ranking signal when no resume is present.
+- **Results page fallback logic:** (1) If a resume is uploaded, opportunities are ranked by resume match. (2) If no resume but interests are selected, results are filtered/ranked by those interests. (3) If neither is provided, all opportunities are shown unranked with a prompt to complete the profile.
+- **Convex schema additions:** Adding `users` table fields: `profileComplete` (boolean), `resumeEmbeddingId` (optional reference), `courses` (array of strings), `researchPreferences` (string), `csInterests` (array of strings, max 4). Any schema change must be documented in the PR description.
 - **Embedding model:** OpenAI `text-embedding-3-small` for both opportunity chunks and resume chunks, invoked via LlamaIndex (consistent with Iteration 1 embedding work).
 
 ### Task Dependencies
@@ -121,7 +127,9 @@
 | Profile screen                  | Onboarding flow complete; user record schema stable      |
 | Resume extraction agent         | LlamaIndex integrated; PDF parsing pipeline confirmed    |
 | Opportunity matching            | Resume embeddings stored; opportunity embeddings present |
+| Select Interests (onboarding)   | Convex `csInterests` schema field added                  |
 | Results page (ranked view)      | Matching logic complete; ranked query endpoint built     |
+| Results page (interest fallback)| Select Interests saved to Convex; interest-based query built |
 | Landing page redesign           | Color palette decided by team                            |
 | Pagination                      | Results page data fetch stable                           |
 | Logout button                   | Session management implemented (Iteration 1)             |
@@ -230,6 +238,11 @@
  - Assignee(s): @ariel @adeola
 
 
+- Task: Implement Select Interests Step in Onboarding
+ - Type: task
+ - Assignee(s): @
+
+
 - Task: Build Personal Profile Screen
  - Type: task
  - Assignee(s): @nikay
@@ -278,7 +291,7 @@
  - Assignee(s): @Adeola
 
 
-- Task: Update Results Page to Display Ranked Opportunities
+- Task: Update Results Page to Display Ranked Opportunities with Interest and Unranked Fallbacks
  - Type: task
  - Assignee(s): @ryan
 
